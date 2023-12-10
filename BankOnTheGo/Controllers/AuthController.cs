@@ -79,7 +79,7 @@ namespace BankOnTheGo.Controllers
 
             var user = _userRepository.CreateUser(userModel);
 
-            if (!user)
+            if (user==null)
             {
                 return BadRequest("Failed to register user");
             }
