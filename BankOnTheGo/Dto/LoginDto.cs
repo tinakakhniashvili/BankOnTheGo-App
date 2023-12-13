@@ -9,5 +9,8 @@ namespace BankOnTheGo.Dto
         [Required]
         public string Password { get; set; }
 
+        [Key]
+        public int Id { get; set; }
+
     }
 }

@@ -11,7 +11,6 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-BankOnTheGo-0d9eacf0-1be2-487c-baf7-2112570a603e")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("BankOnTheGo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
