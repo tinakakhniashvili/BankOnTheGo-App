@@ -1,7 +1,6 @@
 ﻿namespace BankOnTheGo.Helper
 {
-    public class MappingProfiles
+    public interface IPasswordHasher
     {
-
     }
 }
