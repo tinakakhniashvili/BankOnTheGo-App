@@ -9,6 +9,5 @@ namespace BankOnTheGo.Models
         [Key]
         public int ID_Number { get; set; }
         public string Password { get; set; }
-        public string MyProperty { get; set; }
     }
 }

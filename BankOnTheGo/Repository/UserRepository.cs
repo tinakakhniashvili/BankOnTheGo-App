@@ -1,24 +1,27 @@
 ﻿using BankOnTheGo.Data;
+using BankOnTheGo.Helper;
 using BankOnTheGo.Models;
 
-namespace BankOnTheGo.Repository
+namespace BankOnTheGo.Dto.Repository
 {
     public class UserRepository
     {
         private readonly DataContext _context;
-
-        public UserRepository(DataContext context)
+        private readonly IPasswordHasher _passwordHasher;
+        public UserRepository(DataContext context, IPasswordHasher passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
         }
         public void CreateUser(RegisterModel userRegisterData)
         {
+            var passwordHash = _passwordHasher.Hash(userRegisterData.Password);
             var userData = new UserModel
             {
                 FirstName = userRegisterData.FirstName,
                 LastName = userRegisterData.LastName,
                 ID_Number = userRegisterData.ID_Number,
-                HashedPassword = userRegisterData.Password
+                HashedPassword = passwordHash
             };
 
             _context.Add(userData);
