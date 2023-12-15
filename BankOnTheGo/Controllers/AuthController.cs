@@ -1,6 +1,7 @@
 ﻿using BankOnTheGo.Data;
 using BankOnTheGo.Dto;
-using BankOnTheGo.Dto.Repository;
+using BankOnTheGo.IRepository;
+using BankOnTheGo.Repository;
 using BankOnTheGo.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,10 @@ namespace BankOnTheGo.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly DataContext _context;
 
-        public AuthController(UserRepository userRepository, DataContext context)
+        public AuthController(IUserRepository userRepository, DataContext context)
         {
             _userRepository = userRepository;
             _context = context;
@@ -33,7 +34,7 @@ namespace BankOnTheGo.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("/Auth/Register/")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public IActionResult Register([FromBody] RegisterDto register)
@@ -44,9 +45,11 @@ namespace BankOnTheGo.Controllers
                 return BadRequest();
             }
 
-            var user = _userRepository.CreateUser(register);
+            RegisterModel registerModel = new RegisterModel(register.FirstName, register.LastName, register.ID_Number, register.Password);
 
-            if (user == null)
+            var user = _userRepository.CreateUser(registerModel);
+
+            if (!user)
             {
                 return BadRequest("Failed to register user");
             }

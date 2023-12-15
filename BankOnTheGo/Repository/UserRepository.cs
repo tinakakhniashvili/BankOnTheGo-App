@@ -1,10 +1,11 @@
 ﻿using BankOnTheGo.Data;
 using BankOnTheGo.Helper;
+using BankOnTheGo.IRepository;
 using BankOnTheGo.Models;
 
-namespace BankOnTheGo.Dto.Repository
+namespace BankOnTheGo.Repository
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
         private readonly IPasswordHasher _passwordHasher;
@@ -13,7 +14,7 @@ namespace BankOnTheGo.Dto.Repository
             _context = context;
             _passwordHasher = passwordHasher;
         }
-        public void CreateUser(RegisterModel userRegisterData)
+        public bool CreateUser(RegisterModel userRegisterData)
         {
             var passwordHash = _passwordHasher.Hash(userRegisterData.Password);
             var userData = new UserModel
@@ -25,6 +26,14 @@ namespace BankOnTheGo.Dto.Repository
             };
 
             _context.Add(userData);
+
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public UserModel FindUserById(int userId)
