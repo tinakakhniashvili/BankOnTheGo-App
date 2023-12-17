@@ -45,16 +45,26 @@ namespace BankOnTheGo.Controllers
                 return BadRequest();
             }
 
-            RegisterModel registerModel = new RegisterModel(register.FirstName, register.LastName, register.ID_Number, register.Password);
+            RegisterModel registerModel = new RegisterModel(register.FirstName, register.LastName, register.ID_Number, register.Password, register.Email);
 
             var user = _userRepository.CreateUser(registerModel);
+
+            if (_userRepository.UserIDExists(register.ID_Number))
+            {
+                return BadRequest("The ID you selected is already in use");
+            }
+
+            if (_userRepository.UserEmailExists(register.Email))
+            {
+                return BadRequest("The email you selected is already in use");
+            }
 
             if (!user)
             {
                 return BadRequest("Failed to register user");
             }
 
-
+            
             return Ok("Successfully registered");
         }
     }

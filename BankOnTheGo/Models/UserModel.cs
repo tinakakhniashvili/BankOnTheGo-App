@@ -9,6 +9,8 @@ namespace BankOnTheGo.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int ID_Number { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
         public string HashedPassword { get; set; }
     }
 }

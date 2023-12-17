@@ -2,6 +2,7 @@
 using BankOnTheGo.Helper;
 using BankOnTheGo.IRepository;
 using BankOnTheGo.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankOnTheGo.Repository
 {
@@ -22,7 +23,8 @@ namespace BankOnTheGo.Repository
                 FirstName = userRegisterData.FirstName,
                 LastName = userRegisterData.LastName,
                 ID_Number = userRegisterData.ID_Number,
-                HashedPassword = passwordHash
+                HashedPassword = passwordHash,
+                Email = userRegisterData.Email
             };
 
             _context.Add(userData);
@@ -39,6 +41,18 @@ namespace BankOnTheGo.Repository
         public UserModel FindUserById(int userId)
         {
             return _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+        }
+
+        public bool UserIDExists(int inputUserID)
+        {
+            bool userIdExists = _context.Users.Any(u => u.ID_Number == inputUserID);
+            return userIdExists;
+        }
+
+        public bool UserEmailExists(string email)
+        {
+            bool userEmailExists = _context.Users.Any(u => u.Email.Equals(email));
+            return userEmailExists;
         }
     }
 }
