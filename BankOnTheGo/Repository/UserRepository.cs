@@ -54,5 +54,19 @@ namespace BankOnTheGo.Repository
             bool userEmailExists = _context.Users.Any(u => u.Email.Equals(email));
             return userEmailExists;
         }
+
+        public UserModel FindUserByEmail(string email)
+        {
+            return _context.Users.Where(u => u.Email.Equals(email)).FirstOrDefault();
+        }
+        public bool VerifyPassword(string email, string password)
+        {
+            string hashedPassword = _passwordHasher.Hash(password);
+            if(FindUserByEmail(email).HashedPassword == hashedPassword)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

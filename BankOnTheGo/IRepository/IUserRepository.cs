@@ -1,4 +1,5 @@
 ﻿using BankOnTheGo.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankOnTheGo.IRepository
 {
@@ -9,5 +10,7 @@ namespace BankOnTheGo.IRepository
         public bool Save();
         public bool UserIDExists(int userID);
         public bool UserEmailExists(string email);
+        public UserModel FindUserByEmail(string email);
+        public bool VerifyPassword(string email, string password);
     }
 }

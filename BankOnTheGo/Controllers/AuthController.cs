@@ -20,11 +20,22 @@ namespace BankOnTheGo.Controllers
             _context = context;
         }
 
-        [HttpPost]
+        [HttpPost("/Auth/Login/")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public IActionResult Login([FromBody] LoginDto login)
         {
+            if (!_userRepository.UserEmailExists(login.Email))
+            {
+                return BadRequest("The email  doesn't match any existing accounts");
+            }
+            else
+            {
+                if(!_userRepository.VerifyPassword(login.Email, login.Password))
+                {
+                    return BadRequest("Incorrect password");
+                }
+            }
 
             if (!ModelState.IsValid)
             {
