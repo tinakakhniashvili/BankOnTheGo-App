@@ -58,8 +58,6 @@ namespace BankOnTheGo.Controllers
 
             RegisterModel registerModel = new RegisterModel(register.FirstName, register.LastName, register.ID_Number, register.Password, register.Email);
 
-            var user = _userRepository.CreateUser(registerModel);
-
             if (_userRepository.UserIDExists(register.ID_Number))
             {
                 return BadRequest("The ID you selected is already in use");
@@ -69,6 +67,8 @@ namespace BankOnTheGo.Controllers
             {
                 return BadRequest("The email you selected is already in use");
             }
+
+            var user = _userRepository.CreateUser(registerModel);
 
             if (!user)
             {
