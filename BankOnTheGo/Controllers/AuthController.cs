@@ -30,24 +30,30 @@ namespace BankOnTheGo.Controllers
         [ProducesResponseType(400)]
         public IActionResult Login([FromBody] LoginDto login)
         {
+            LoginRequestResponse response = new LoginRequestResponse();
+            response.Success = true;
+            response.Message = string.Empty;
+
             if (!_userRepository.UserEmailExists(login.Email))
             {
-                return BadRequest("The email  doesn't match any existing accounts");
+                response.Success = false;
+                response.Message = "The email doesn't match any existing accounts";
             }
             else
             {
                 if(!_userRepository.VerifyPassword(login.Email, login.Password))
                 {
-                    return BadRequest("Incorrect password");
+                    response.Success = false;
+                    response.Message = "Incorrect password";
                 }
             }
 
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(response);
             }
 
-            return Ok();
+            return Ok(response);
         }
 
         [HttpPost("/Auth/Register/")]
