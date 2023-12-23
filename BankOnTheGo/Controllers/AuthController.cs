@@ -4,6 +4,7 @@ using BankOnTheGo.IRepository;
 using BankOnTheGo.Repository;
 using BankOnTheGo.Models;
 using Microsoft.AspNetCore.Mvc;
+using BankOnTheGo.Helper;
 
 namespace BankOnTheGo.Controllers
 {
@@ -13,11 +14,13 @@ namespace BankOnTheGo.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly DataContext _context;
+        private readonly PasswordHasher _passwordHasher;
 
-        public AuthController(IUserRepository userRepository, DataContext context)
+        public AuthController(IUserRepository userRepository, DataContext context, PasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
             _context = context;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpPost("/Auth/Login/")]
@@ -56,7 +59,13 @@ namespace BankOnTheGo.Controllers
                 return BadRequest();
             }
 
-            RegisterModel registerModel = new RegisterModel(register.FirstName, register.LastName, register.ID_Number, register.Password, register.Email);
+            var passwordHash = _passwordHasher.Hash(register.Password);
+            UserModel userModel = new UserModel {
+                FirstName=register.FirstName,
+                LastName=register.LastName,
+                ID_Number=register.ID_Number,
+                HashedPassword= passwordHash,
+                Email=register.Email };
 
             if (_userRepository.UserIDExists(register.ID_Number))
             {
@@ -68,7 +77,7 @@ namespace BankOnTheGo.Controllers
                 return BadRequest("The email you selected is already in use");
             }
 
-            var user = _userRepository.CreateUser(registerModel);
+            var user = _userRepository.CreateUser(userModel);
 
             if (!user)
             {

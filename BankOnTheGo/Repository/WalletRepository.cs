@@ -15,12 +15,25 @@ namespace BankOnTheGo.Repository
         }
         public WalletModel GetByUserId(int walletId)
         {
-            return  _context.Wallets.Where(w => w.Id == walletId).FirstOrDefault();
+            return _context.Wallets.Where(w => w.Id == walletId).FirstOrDefault();
         }
 
         public bool WalletExists(int walletId)
         {
             return _context.Wallets.Any(w => w.WallletId == walletId);
         }
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
+
+        public bool CreateWallet(WalletModel wallet)
+        {   
+            _context.Add(wallet);
+
+            return Save();
+        }
     }
 }
+

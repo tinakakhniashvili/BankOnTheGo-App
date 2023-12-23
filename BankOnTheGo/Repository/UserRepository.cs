@@ -15,20 +15,9 @@ namespace BankOnTheGo.Repository
             _context = context;
             _passwordHasher = passwordHasher;
         }
-        public bool CreateUser(RegisterModel userRegisterData)
+        public bool CreateUser(UserModel userRegisterData)
         {
-            var passwordHash = _passwordHasher.Hash(userRegisterData.Password);
-            var userData = new UserModel
-            {
-                FirstName = userRegisterData.FirstName,
-                LastName = userRegisterData.LastName,
-                ID_Number = userRegisterData.ID_Number,
-                HashedPassword = passwordHash,
-                Email = userRegisterData.Email
-            };
-
-            _context.Add(userData);
-
+            _context.Add(userRegisterData);
             return Save();
         }
 
@@ -68,5 +57,6 @@ namespace BankOnTheGo.Repository
             }
             return false;
         }
+
     }
 }
