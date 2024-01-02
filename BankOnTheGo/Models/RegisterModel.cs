@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BankOnTheGo.Repository;
+using System.ComponentModel.DataAnnotations;
 
 namespace BankOnTheGo.Models
 {
-    public class RegisterModel
+    public class RegisterModel 
     {
         public RegisterModel(string firstName, string lastName, int iD_Number, string password, string email)
         {
@@ -18,5 +19,6 @@ namespace BankOnTheGo.Models
         public int ID_Number { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
+
     }
 }

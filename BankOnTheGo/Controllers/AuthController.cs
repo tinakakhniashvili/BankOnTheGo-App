@@ -14,9 +14,10 @@ namespace BankOnTheGo.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly DataContext _context;
-        private readonly PasswordHasher _passwordHasher;
+        private readonly IPasswordHasher _passwordHasher;
+        private readonly WalletRepository _walletRepository;
 
-        public AuthController(IUserRepository userRepository, DataContext context, PasswordHasher passwordHasher)
+        public AuthController(IUserRepository userRepository, DataContext context, IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
             _context = context;
@@ -84,7 +85,15 @@ namespace BankOnTheGo.Controllers
                 return BadRequest("Failed to register user");
             }
 
-            
+            WalletModel walletModel = new WalletModel(userModel.Id, 0, 1);
+
+            var wallet = _walletRepository.CreateWallet(walletModel);
+
+            if (wallet == null)
+            {
+                return BadRequest("Failed to register wallet");
+            }
+
             return Ok("Successfully registered");
         }
     }

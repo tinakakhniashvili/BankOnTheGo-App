@@ -2,15 +2,14 @@
 {
     public class WalletModel
     {
-        public WalletModel(int id, int walletId, double currentBalance, int currencyId)
+        public WalletModel(int userId, double currentBalance, int currencyId)
         {
-            Id = id;
-            WallletId = walletId;
+            UserId = userId;
             CurrentBalance = currentBalance;
             CurrencyId = currencyId;
         }
         public int Id { get; set; }
-        public int WallletId { get; set; }
+        public int UserId { get; set; }
         public double CurrentBalance { get; set; }
         public int CurrencyId { get; set; }
     }

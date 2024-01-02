@@ -18,9 +18,9 @@ namespace BankOnTheGo.Repository
             return _context.Wallets.Where(w => w.Id == walletId).FirstOrDefault();
         }
 
-        public bool WalletExists(int walletId)
+        public bool WalletExists(int userId)
         {
-            return _context.Wallets.Any(w => w.WallletId == walletId);
+            return _context.Wallets.Any(w => w.UserId == userId);
         }
         public bool Save()
         {
