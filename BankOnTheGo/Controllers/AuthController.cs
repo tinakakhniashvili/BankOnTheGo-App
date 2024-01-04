@@ -15,13 +15,14 @@ namespace BankOnTheGo.Controllers
         private readonly IUserRepository _userRepository;
         private readonly DataContext _context;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly WalletRepository _walletRepository;
+        private readonly IWalletRepository _walletRepository;
 
-        public AuthController(IUserRepository userRepository, DataContext context, IPasswordHasher passwordHasher)
+        public AuthController(IUserRepository userRepository, DataContext context, IPasswordHasher passwordHasher, IWalletRepository walletRepository)
         {
             _userRepository = userRepository;
             _context = context;
             _passwordHasher = passwordHasher;
+            _walletRepository = walletRepository;
         }
 
         [HttpPost("/Auth/Login/")]

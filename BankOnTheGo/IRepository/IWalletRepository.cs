@@ -6,5 +6,7 @@ namespace BankOnTheGo.IRepository
     {
         public WalletModel GetByUserId(int walletId);
         public bool WalletExists(int walletId);
+
+        public bool CreateWallet(WalletModel wallet);
     }
 }
