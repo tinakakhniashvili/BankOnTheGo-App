@@ -8,6 +8,7 @@ namespace BankOnTheGo.Data
     {
         public DbSet<UserModel> Users { get; set; }
         public DbSet<WalletModel> Wallets { get; set; }
+        public DbSet<TemporaryCodes> TemporaryCodes { get; set; }
 
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -23,6 +24,9 @@ namespace BankOnTheGo.Data
 
             modelBuilder.Entity<WalletModel>()
                    .HasKey(e => e.Id);
+
+            modelBuilder.Entity<TemporaryCodes>()
+                .HasKey(e => e.Id);
         }
     }
 }

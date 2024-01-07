@@ -5,12 +5,12 @@ namespace BankOnTheGo.IRepository
 {
     public interface IUserRepository
     {
-        public bool CreateUser(UserModel userRegisterData);
-        public UserModel FindUserById(int userId);
-        public bool Save();
-        public bool UserIDExists(int userID);
-        public bool UserEmailExists(string email);
-        public UserModel FindUserByEmail(string email);
-        public bool VerifyPassword(string email, string password);
+        bool CreateUser(UserModel userRegisterData);
+        UserModel FindUserById(int userId);
+        bool Save();
+        bool UserIDExists(int userID);
+        bool UserEmailExists(string email);
+        UserModel FindUserByEmail(string email);
+        bool VerifyPassword(string email, string password);
     }
 }
