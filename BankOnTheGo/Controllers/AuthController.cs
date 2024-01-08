@@ -9,6 +9,8 @@ using MimeKit.Text;
 using MailKit.Security;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
+using System.Net;
+using System.Net.Mail;
 
 namespace BankOnTheGo.Controllers
 {
@@ -65,30 +67,34 @@ namespace BankOnTheGo.Controllers
         [ProducesResponseType(400)]
         public IActionResult RequestPasswordChange()
         {
+            DotNetEnv.Env.Load();
+
             Random random = new Random();
             int code = random.Next(10000, 99999);
 
-            var emailHost = _configuration["EmailSettings:EmailHost"];
-            var emailUsername = _configuration["EmailSettings:EmailUsername"];
-            var emailPassword = _configuration["EmailSettings:EmailPassword"];
 
-            var mail = new MimeMessage();
-            mail.From.Add(new MailboxAddress("BanckOnTheGo", "geo47@ethereal.email"));
-            mail.To.Add(MailboxAddress.Parse("nika.nabakhteveli@gmail.com"));
-            mail.Subject = "Pasword Reset Code";
+            var mailFrom = Environment.GetEnvironmentVariable("MAIL_FROM");
+            var pass = Environment.GetEnvironmentVariable("MAIL_FROM_PASS");
 
-            mail.Body = new TextPart(TextFormat.Html)
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(mailFrom);
+            message.Subject = "Test Subject";
+            message.To.Add(new MailAddress("nika.nabakhteveli1@gmail.com"));
+            message.Body = "<html><body> THIS IS BODY </body></html>";
+            message.IsBodyHtml = true;
+
+
+
+            var smtpClient = new System.Net.Mail.SmtpClient("smtp.gmail.com")
             {
-                Text = $"Aleko"
+                Port = 587,
+                Credentials = new NetworkCredential(mailFrom, pass),
+                EnableSsl = true,
             };
 
-            using var smtp = new SmtpClient();
-            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("geo47@ethereal.email", "HuGBjSx8BdTWqpmWFq");
-            smtp.Send(mail);
-            smtp.Disconnect(true);
+            smtpClient.Send(message);
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost("/Auth/Register/")]

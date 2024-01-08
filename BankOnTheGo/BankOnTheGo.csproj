@@ -19,6 +19,7 @@
     </PackageReference>
     <PackageReference Include="MailKit" Version="4.3.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.1" />
+    <PackageReference Include="DotNetEnv" Version="3.0.0" />
   </ItemGroup>
 
 </Project>
