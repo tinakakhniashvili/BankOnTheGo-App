@@ -7,6 +7,7 @@ namespace BankOnTheGo
         public DateTime CreateDate { get; set; }
         public string Email { get; set; }
         public int Code { get; set; }
+        public string NewPassword { get; set; }
     }
 }
 

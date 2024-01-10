@@ -23,7 +23,8 @@ namespace BankOnTheGo.Controllers
         private readonly IWalletRepository _walletRepository;
         private readonly IConfiguration _configuration;
 
-        public AuthController(IUserRepository userRepository,  IPasswordHasher passwordHasher, IWalletRepository walletRepository, IConfiguration configuration)
+        public AuthController(IUserRepository userRepository,  IPasswordHasher passwordHasher,
+                              IWalletRepository walletRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;

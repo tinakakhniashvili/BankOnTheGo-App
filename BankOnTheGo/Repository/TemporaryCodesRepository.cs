@@ -16,6 +16,11 @@ namespace BankOnTheGo.Repository
         {
             return _context.TemporaryCodes.Where(t => t.Email == email).FirstOrDefault().Code;
         }
+
+        public void ResetPassword(string email, string password)
+        {
+            _context.TemporaryCodes.Where(t => t.Email == email).FirstOrDefault().NewPassword=password;
+        }
     }
 }
 

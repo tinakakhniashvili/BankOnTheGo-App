@@ -29,7 +29,7 @@ namespace BankOnTheGo.Controllers
 
         var mailFrom = Environment.GetEnvironmentVariable("MAIL_FROM");
         var pass = Environment.GetEnvironmentVariable("MAIL_FROM_PASS");
-
+            
         MailMessage message = new MailMessage();
         message.From = new MailAddress(mailFrom);
         message.Subject = "Test Subject";
@@ -61,10 +61,8 @@ namespace BankOnTheGo.Controllers
             }
             else
             {
-                return BadRequest("Invalid temporary code format.");
+                _temporaryCodesRepository.ResetPassword(email, newPassword);
             }
-
-
 
             return Ok();
         }
