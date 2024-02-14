@@ -1,10 +1,14 @@
 ﻿using BankOnTheGo.Data;
 using BankOnTheGo.Dto;
 using BankOnTheGo.IRepository;
-using BankOnTheGo.Repository;
 using BankOnTheGo.Models;
 using Microsoft.AspNetCore.Mvc;
 using BankOnTheGo.Helper;
+using MimeKit;
+using MimeKit.Text;
+using MailKit.Security;
+using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 
 namespace BankOnTheGo.Controllers
 {
@@ -13,16 +17,16 @@ namespace BankOnTheGo.Controllers
     public class AuthController : Controller
     {
         private readonly IUserRepository _userRepository;
-        private readonly DataContext _context;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IWalletRepository _walletRepository;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(IUserRepository userRepository, DataContext context, IPasswordHasher passwordHasher, IWalletRepository walletRepository)
+        public AuthController(IUserRepository userRepository,  IPasswordHasher passwordHasher, IWalletRepository walletRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
-            _context = context;
             _passwordHasher = passwordHasher;
             _walletRepository = walletRepository;
+            _configuration = configuration;
         }
 
         [HttpPost("/Auth/Login/")]
@@ -31,29 +35,60 @@ namespace BankOnTheGo.Controllers
         public IActionResult Login([FromBody] LoginDto login)
         {
             LoginRequestResponse response = new LoginRequestResponse();
-            response.Success = true;
-            response.Message = string.Empty;
-
-            if (!_userRepository.UserEmailExists(login.Email))
-            {
-                response.Success = false;
-                response.Message = "The email doesn't match any existing accounts";
-            }
-            else
-            {
-                if(!_userRepository.VerifyPassword(login.Email, login.Password))
-                {
-                    response.Success = false;
-                    response.Message = "Incorrect password";
-                }
-            }
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(response);
             }
 
+            var isEmailValid = _userRepository.UserEmailExists(login.Email);
+
+
+            if (!isEmailValid)
+            {
+                response.Message = "The email doesn't match any existing accounts";
+                return BadRequest(response);
+            }
+            else
+            {
+                if(!_userRepository.VerifyPassword(login.Email, login.Password))
+                {
+                    response.Message = "Incorrect password";
+                }
+            }
+
             return Ok(response);
+        }
+
+        [HttpPost("/Auth/RequestPasswordChange/")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult RequestPasswordChange()
+        {
+            Random random = new Random();
+            int code = random.Next(10000, 99999);
+
+            var emailHost = _configuration["EmailSettings:EmailHost"];
+            var emailUsername = _configuration["EmailSettings:EmailUsername"];
+            var emailPassword = _configuration["EmailSettings:EmailPassword"];
+
+            var mail = new MimeMessage();
+            mail.From.Add(new MailboxAddress("BanckOnTheGo", "geo47@ethereal.email"));
+            mail.To.Add(MailboxAddress.Parse("nika.nabakhteveli@gmail.com"));
+            mail.Subject = "Pasword Reset Code";
+
+            mail.Body = new TextPart(TextFormat.Html)
+            {
+                Text = $"Aleko"
+            };
+
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("geo47@ethereal.email", "HuGBjSx8BdTWqpmWFq");
+            smtp.Send(mail);
+            smtp.Disconnect(true);
+
+            return NoContent();
         }
 
         [HttpPost("/Auth/Register/")]
