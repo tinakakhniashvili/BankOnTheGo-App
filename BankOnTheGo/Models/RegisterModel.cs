@@ -1,24 +1,48 @@
-﻿using BankOnTheGo.Repository;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using BankOnTheGo.Dto;
+using BankOnTheGo.IRepository;
+using BankOnTheGo.Helper;
+using BankOnTheGo.Models;
 
-namespace BankOnTheGo.Models
+namespace BankOnTheGo.Pages.Auth
 {
-    public class RegisterModel 
+    public class RegisterModel : PageModel
     {
-        public RegisterModel(string firstName, string lastName, int iD_Number, string password, string email)
+        [BindProperty]
+        public RegisterDto Input { get; set; }
+
+        private readonly IUserRepository _userRepository;
+        private readonly IPasswordHasher _passwordHasher;
+
+        public RegisterModel(IUserRepository userRepository, IPasswordHasher passwordHasher)
         {
-            FirstName = firstName;
-            LastName = lastName;
-            ID_Number = iD_Number;
-            Password = password;
-            Email = email;
+            _userRepository = userRepository;
+            _passwordHasher = passwordHasher;
         }
 
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int ID_Number { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
+        public void OnGet()
+        {
+        }
+
+        public IActionResult OnPost()
+        {
+            if (!ModelState.IsValid)
+                return Page();
+
+            var user = new UserModel
+            {
+                FirstName = Input.FirstName,
+                LastName = Input.LastName,
+                ID_Number = Input.ID_Number,
+                Email = Input.Email,
+                HashedPassword = _passwordHasher.Hash(Input.Password) // <-- hash here
+            };
+
+            _userRepository.CreateUser(user);
+
+            return RedirectToPage("/Auth/Login");
+        }
 
     }
 }

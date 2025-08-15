@@ -1,0 +1,19 @@
+@model BankOnTheGo.Models.WalletModel
+
+@{
+    ViewData["Title"] = "Wallet Details";
+}
+
+<h2>Wallet Details</h2>
+
+<div class="card" style="width: 20rem;">
+    <div class="card-body">
+        <h5 class="card-title">Wallet ID: @Model.Id</h5>
+        <p class="card-text">
+            <strong>User ID:</strong> @Model.UserId <br />
+            <strong>Current Balance:</strong> @Model.CurrentBalance <br />
+            <strong>Currency ID:</strong> @Model.CurrencyId
+        </p>
+        <a asp-controller="Wallet" asp-action="Index" class="btn btn-primary">Back to Wallets</a>
+    </div>
+</div>
