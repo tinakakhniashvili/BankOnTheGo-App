@@ -1,16 +1,15 @@
-﻿using BankOnTheGo.Data;
-using BankOnTheGo.Dto;
-using BankOnTheGo.IRepository;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using BankOnTheGo.Models;
+using BankOnTheGo.Models.Authentication.Login;
 using Microsoft.AspNetCore.Mvc;
-using BankOnTheGo.Helper;
-using MimeKit;
-using MimeKit.Text;
-using MailKit.Security;
-using MailKit.Net.Smtp;
-using Microsoft.Extensions.Configuration;
-using System.Net;
-using System.Net.Mail;
+using BankOnTheGo.Models.Authentication.SignUp;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using User.Management.Service.Models;
+using User.Management.Service.Services;
+using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace BankOnTheGo.Controllers
 {
@@ -18,97 +17,189 @@ namespace BankOnTheGo.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IPasswordHasher _passwordHasher;
-        private readonly IWalletRepository _walletRepository;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
+        
 
-        public AuthController(IUserRepository userRepository,  IPasswordHasher passwordHasher,
-                              IWalletRepository walletRepository, IConfiguration configuration)
+        public AuthController(IConfiguration configuration, UserManager<IdentityUser> userManager,  RoleManager<IdentityRole> roleManager, IEmailService emailService, SignInManager<IdentityUser> signInManager)
         {
-            _userRepository = userRepository;
-            _passwordHasher = passwordHasher;
-            _walletRepository = walletRepository;
             _configuration = configuration;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _emailService = emailService;
+            _signInManager = signInManager;
         }
 
-        [HttpPost("/Auth/Login/")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        public IActionResult Login([FromBody] LoginDto login)
+
+        [HttpPost("/Auth/Register/")]
+        public async Task<IActionResult> Register([FromBody] RegisterUser registerUser, string role)
         {
-            LoginRequestResponse response = new LoginRequestResponse();
-
-            if (!ModelState.IsValid)
+            var userExist = await _userManager.FindByEmailAsync(registerUser.Email);
+            if (userExist != null)
             {
-                return BadRequest(response);
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    new Response { Status = "Error", Message = "User already exists!" });
             }
-
-            var isEmailValid = _userRepository.UserEmailExists(login.Email);
-
-
-            if (!isEmailValid)
+            
+            IdentityUser user = new()
             {
-                response.Message = "The email doesn't match any existing accounts";
-                return BadRequest(response);
+                Email = registerUser.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = registerUser.Username,
+                TwoFactorEnabled = true,
+            };
+
+            if (await _roleManager.RoleExistsAsync(role))
+            {
+                var result = await _userManager.CreateAsync(user, registerUser.Password);
+
+                if (!result.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                        new Response { Status = "Error", Message = "User Failed to create" });
+                }
+
+                await _userManager.AddToRoleAsync(user, role);
+                
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationLink =
+                    Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
+                var message = new Message(new string[] { user.Email! }, "Confirmation email link", $"Please confirm your email by clicking this link: {confirmationLink}");
+                _emailService.SendEmail(message);
+                
+                return StatusCode(StatusCodes.Status201Created,
+                    new Response { Status = "Success", Message = $"User created & email send to {user.Email} successfully." });
             }
             else
             {
-                if(!_userRepository.VerifyPassword(login.Email, login.Password))
-                {
-                    response.Message = "Incorrect password";
-                }
+                   return StatusCode(StatusCodes.Status500InternalServerError,
+                       new Response { Status = "Error", Message = "This role does not exist." }); 
             }
-
-            return Ok(response);
         }
 
-        [HttpPost("/Auth/Register/")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        public IActionResult Register([FromBody] RegisterDto register)
+        [HttpGet("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
-
-            if (!ModelState.IsValid)
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
             {
-                return BadRequest();
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                if (result.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status200OK,
+                        new Response {Status = "Success", Message = "Email verified successfully!"});
+                }
             }
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                new Response { Status = "Error", Message = "This user does not exist." });
+        }
 
-            var passwordHash = _passwordHasher.Hash(register.Password);
-            UserModel userModel = new UserModel {
-                FirstName=register.FirstName,
-                LastName=register.LastName,
-                ID_Number=register.ID_Number,
-                HashedPassword= passwordHash,
-                Email=register.Email };
+        [HttpPost("/Auth/Login/")]
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+        {
+            var user = await _userManager.FindByNameAsync(loginModel.Username);
 
-            if (_userRepository.UserIDExists(register.ID_Number))
+            if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
             {
-                return BadRequest("The ID you selected is already in use");
-            }
+                await _signInManager.SignOutAsync();
+                await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, true);
+                var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
 
-            if (_userRepository.UserEmailExists(register.Email))
+                var userRoles = await _userManager.GetRolesAsync(user);
+
+                foreach (var role in userRoles)
+                {
+                    authClaims.Add(new Claim(ClaimTypes.Role, role));
+                }
+
+                if (user.TwoFactorEnabled)
+                {
+                    var token = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
+                    
+                    var message = new Message(new string[] { user.Email! }, "OTP Confirmation",token);
+                    _emailService.SendEmail(message);
+                    
+                    return StatusCode(StatusCodes.Status200OK,
+                        new Response { Status = "Success", Message = $"We have sent an OTP to your email {user.Email}" });
+                }
+                
+                var jwtToken = GetToken(authClaims);
+
+                return Ok(
+                    new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+                    });
+            }
+            
+            return Unauthorized();
+        }
+        
+        [HttpPost("/Auth/Login-2FA/")]
+        public async Task<IActionResult> LoginWithOtp(string code, string username)
+        {
+            var signInResult = await _signInManager.TwoFactorSignInAsync("Email", code, false, false);
+
+            if (!signInResult.Succeeded)
             {
-                return BadRequest("The email you selected is already in use");
+                return Unauthorized(new Response
+                {
+                    Status = "Error",
+                    Message = "Invalid or expired OTP code."
+                });
             }
-
-            var user = _userRepository.CreateUser(userModel);
-
-            if (user==null)
+            
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
             {
-                return BadRequest("Failed to register user");
+                return NotFound(new Response
+                {
+                    Status = "Error",
+                    Message = "User not found."
+                });
             }
-
-            WalletModel walletModel = new WalletModel(userModel.Id, 0, 1);
-
-            var wallet = _walletRepository.CreateWallet(walletModel);
-
-            if (wallet == null)
+            
+            var authClaims = new List<Claim>
             {
-                return BadRequest("Failed to register wallet");
-            }
+                new Claim(ClaimTypes.Name, user.UserName!),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
-            return Ok("Successfully registered");
+            var userRoles = await _userManager.GetRolesAsync(user);
+            foreach (var role in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            
+            var jwtToken = GetToken(authClaims);
+
+            return Ok(new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+                expiration = jwtToken.ValidTo
+            });
+        }
+
+
+        private JwtSecurityToken GetToken(List<Claim> authClaims)
+        {
+            var authSigninKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]));
+            
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(3),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256));
+            
+            return token;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-namespace BankOnTheGo
+﻿namespace BankOnTheGo
 {
 	public class TemporaryCodes
 	{
