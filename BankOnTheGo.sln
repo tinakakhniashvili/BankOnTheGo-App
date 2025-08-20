@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOnTheGo", "BankOnTheGo\BankOnTheGo.csproj", "{B98F04D8-E762-4A85-A17A-79412C4FE64E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Management.Service", "User.Management.Service\User.Management.Service.csproj", "{FD52CBD0-31D4-48EF-87B3-32257D24191F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B98F04D8-E762-4A85-A17A-79412C4FE64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B98F04D8-E762-4A85-A17A-79412C4FE64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B98F04D8-E762-4A85-A17A-79412C4FE64E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD52CBD0-31D4-48EF-87B3-32257D24191F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD52CBD0-31D4-48EF-87B3-32257D24191F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD52CBD0-31D4-48EF-87B3-32257D24191F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD52CBD0-31D4-48EF-87B3-32257D24191F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

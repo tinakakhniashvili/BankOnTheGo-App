@@ -19,9 +19,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// Add config for Required Email
 builder.Services.Configure<IdentityOptions>(
     opts=>opts.SignIn.RequireConfirmedEmail = true );
+
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opts=>opts.TokenLifespan = TimeSpan.FromHours(10));
 
 builder.Services.AddAuthentication(options =>
 {
@@ -42,7 +43,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Add email configs
 var emailConfig = configuration.GetSection("EmailConfiguration")
     .Get<EmailConfiguration>();
 

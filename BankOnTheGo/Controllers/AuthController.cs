@@ -1,11 +1,14 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BankOnTheGo.Models;
 using BankOnTheGo.Models.Authentication.Login;
 using Microsoft.AspNetCore.Mvc;
 using BankOnTheGo.Models.Authentication.SignUp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.IdentityModel.Tokens;
 using User.Management.Service.Models;
 using User.Management.Service.Services;
@@ -187,6 +190,64 @@ namespace BankOnTheGo.Controllers
             });
         }
 
+        [HttpPost("/Forgot-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword([Required] string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var forgotPasswordLink = Url.Action(nameof(ResetPassword), "Auth", new {token, email = user.Email}, Request.Scheme);
+                var message = new Message(new string[] { user.Email! }, "Forgot password link",forgotPasswordLink);
+                _emailService.SendEmail(message);
+                return StatusCode(StatusCodes.Status200OK,
+                    new Response { Status = "Success", Message = $"Password changed request is sent on email {user.Email}. Open your email and verify the link." });
+            }
+            
+            return StatusCode(StatusCodes.Status400BadRequest, new Response {Status = "Error", Message = $"Couldn't send link to email, please try again."});
+        }
+        
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
+        {
+            var user = await _userManager.FindByEmailAsync(resetPassword.Email);
+
+            if (user == null)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    new Response { Status = "Error", Message = "Could not find user with the provided email." }
+                );
+            }
+
+            var resetPassResult = await _userManager.ResetPasswordAsync(
+                user,
+                resetPassword.Token,
+                resetPassword.Password
+            );
+
+            if (!resetPassResult.Succeeded)
+            {
+                foreach (var error in resetPassResult.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return Ok(new Response { Status = "Success", Message = "Password has been changed" });
+        }
+
+        [HttpGet("aleko/reset-password")]
+        public async Task<IActionResult> ResetPassword(string token, string email)
+        {
+            var model = new ResetPassword{ Token = token, Email = email };
+            return Ok(new { model });
+        }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
