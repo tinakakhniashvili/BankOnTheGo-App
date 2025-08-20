@@ -3,14 +3,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BankOnTheGo.Models;
-using BankOnTheGo.Models.Authentication.Login;
 using Microsoft.AspNetCore.Mvc;
-using BankOnTheGo.Models.Authentication.SignUp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.IdentityModel.Tokens;
 using User.Management.Service.Models;
+using User.Management.Service.Models.Authentication.SignUp;
 using User.Management.Service.Services;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
@@ -25,62 +23,30 @@ namespace BankOnTheGo.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
+        private readonly IUserManagement _user;
         
 
-        public AuthController(IConfiguration configuration, UserManager<IdentityUser> userManager,  RoleManager<IdentityRole> roleManager, IEmailService emailService, SignInManager<IdentityUser> signInManager)
+        public AuthController(IConfiguration configuration, UserManager<IdentityUser> userManager,  RoleManager<IdentityRole> roleManager, IEmailService emailService, SignInManager<IdentityUser> signInManager, IUserManagement user)
         {
             _configuration = configuration;
             _userManager = userManager;
             _roleManager = roleManager;
             _emailService = emailService;
             _signInManager = signInManager;
+            _user = user;
         }
 
 
         [HttpPost("/Auth/Register/")]
         public async Task<IActionResult> Register([FromBody] RegisterUser registerUser, string role)
         {
-            var userExist = await _userManager.FindByEmailAsync(registerUser.Email);
-            if (userExist != null)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden,
-                    new Response { Status = "Error", Message = "User already exists!" });
-            }
+            var token = await _user.CreateUserWithTokenAsync(registerUser);
             
-            IdentityUser user = new()
-            {
-                Email = registerUser.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerUser.Username,
-                TwoFactorEnabled = true,
-            };
-
-            if (await _roleManager.RoleExistsAsync(role))
-            {
-                var result = await _userManager.CreateAsync(user, registerUser.Password);
-
-                if (!result.Succeeded)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError,
-                        new Response { Status = "Error", Message = "User Failed to create" });
-                }
-
-                await _userManager.AddToRoleAsync(user, role);
-                
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var confirmationLink =
-                    Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
-                var message = new Message(new string[] { user.Email! }, "Confirmation email link", $"Please confirm your email by clicking this link: {confirmationLink}");
-                _emailService.SendEmail(message);
-                
-                return StatusCode(StatusCodes.Status201Created,
-                    new Response { Status = "Success", Message = $"User created & email send to {user.Email} successfully." });
-            }
-            else
-            {
-                   return StatusCode(StatusCodes.Status500InternalServerError,
-                       new Response { Status = "Error", Message = "This role does not exist." }); 
-            }
+            var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = registerUser.Email }, Request.Scheme);
+            var message = new Message(new string[] {registerUser.Email!}, "Confirmation email link", confirmationLink!);
+            _emailService.SendEmail(message);
+            
+            return StatusCode(StatusCodes.Status200OK, new Response{Status = "Success", Message = "Verification link is sent!"});
         }
 
         [HttpGet("ConfirmEmail")]
@@ -100,7 +66,7 @@ namespace BankOnTheGo.Controllers
                 new Response { Status = "Error", Message = "This user does not exist." });
         }
 
-        [HttpPost("/Auth/Login/")]
+      /*  [HttpPost("/Auth/Login/")]
         public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
             var user = await _userManager.FindByNameAsync(loginModel.Username);
@@ -141,9 +107,8 @@ namespace BankOnTheGo.Controllers
                         token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
                     });
             }
-            
             return Unauthorized();
-        }
+        } */
         
         [HttpPost("/Auth/Login-2FA/")]
         public async Task<IActionResult> LoginWithOtp(string code, string username)

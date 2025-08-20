@@ -3,8 +3,6 @@ using System.Net;
 using System.Net.Mail;
 using BankOnTheGo.IRepository;
 
-
-
 namespace BankOnTheGo.Controllers
 {
     [Route("api[controller]")]

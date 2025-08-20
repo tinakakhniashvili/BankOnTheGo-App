@@ -34,6 +34,5 @@ namespace BankOnTheGo.Controllers
 
             return Ok();
         }
-
     }
 }
