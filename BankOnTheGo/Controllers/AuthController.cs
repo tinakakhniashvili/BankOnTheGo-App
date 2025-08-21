@@ -74,47 +74,46 @@ namespace BankOnTheGo.Controllers
                 new Response { Status = "Error", Message = "This user does not exist." });
         }
 
-      [HttpPost("/Auth/Login/")]
+        [HttpPost("/Auth/Login/")]
         public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            var user = await _userManager.FindByNameAsync(loginModel.Username);
-
-            if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
-            {
-                await _signInManager.SignOutAsync();
-                await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, true);
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-
-                var userRoles = await _userManager.GetRolesAsync(user);
-
-                foreach (var role in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, role));
-                }
-
+            var loginOtpResponse = await _user.GetOtpByLoginAsyn(loginModel);
+            if(loginOtpResponse.Response!=null){
+                var user = loginOtpResponse.Response.User;
+                
                 if (user.TwoFactorEnabled)
                 {
-                    var token = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
-                    
+                    var token = loginOtpResponse.Response.Token;
                     var message = new Message(new string[] { user.Email! }, "OTP Confirmation",token);
+                    
                     _emailService.SendEmail(message);
                     
                     return StatusCode(StatusCodes.Status200OK,
-                        new Response { Status = "Success", Message = $"We have sent an OTP to your email {user.Email}" });
+                        new Response { IsSuccess = loginOtpResponse.IsSuccess, Status = "Success", Message = $"We have sent an OTP to your email {user.Email}" });
                 }
-                
-                var jwtToken = GetToken(authClaims);
-
-                return Ok(
-                    new
+                if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
+                {
+                    await _signInManager.SignOutAsync();
+                    await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, true);
+                    var authClaims = new List<Claim>
                     {
-                        token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
-                    });
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    };
+
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                
+                    var jwtToken = GetToken(authClaims);
+
+                    return Ok(
+                        new
+                        {
+                            token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+                        });
+                }
             }
+            
+            
             return Unauthorized();
         } 
         

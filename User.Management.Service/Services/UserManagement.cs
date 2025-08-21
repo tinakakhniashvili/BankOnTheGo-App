@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using User.Management.Service.Models;
+using User.Management.Service.Models.Authentication.Login;
 using User.Management.Service.Models.Authentication.SignUp;
 using User.Management.Service.Models.Authentication.User;
 
@@ -84,5 +85,57 @@ public class UserManagement : IUserManagement
             Response = assignedRole
         };
         
+    }
+
+    public async Task<ApiResponse<LoginOtpResponse>> GetOtpByLoginAsyn(LoginModel loginModel)
+    {
+        var user = await _userManager.FindByNameAsync(loginModel.Username);
+        if (user == null)
+        {
+            return new ApiResponse<LoginOtpResponse>
+            {
+                IsSuccess = false,
+                StatusCode = 404,
+                Message = "User does not exist"
+            };
+        }
+
+        await _signInManager.SignOutAsync();
+        var signInResult = await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, true);
+
+        if (!signInResult.Succeeded)
+        {
+            return new ApiResponse<LoginOtpResponse>
+            {
+                IsSuccess = false,
+                StatusCode = 401,
+                Message = "Invalid username or password"
+            };
+        }
+
+        if (!user.TwoFactorEnabled)
+        {
+            return new ApiResponse<LoginOtpResponse>
+            {
+                IsSuccess = false,
+                StatusCode = 400,
+                Message = "Two-factor authentication is not enabled for this user."
+            };
+        }
+
+        var token = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
+
+        return new ApiResponse<LoginOtpResponse>
+        {
+            Response = new LoginOtpResponse
+            {
+                User = user,
+                Token = token,
+                IsTwoFactorEnable = true
+            },
+            IsSuccess = true,
+            StatusCode = 200,
+            Message = $"OTP sent to the email {user.Email}"
+        };
     }
 }
