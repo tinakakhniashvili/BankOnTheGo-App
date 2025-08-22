@@ -24,5 +24,4 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
             new IdentityRole(){Name = "User", ConcurrencyStamp = "2", NormalizedName = "User"}
         );
     }
-    
 }

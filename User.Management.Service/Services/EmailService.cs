@@ -1,6 +1,7 @@
 using MailKit.Net.Smtp;
 using MimeKit;
 using User.Management.Service.Models;
+using User.Management.Service.Services.Interfaces;
 
 namespace User.Management.Service.Services;
 
