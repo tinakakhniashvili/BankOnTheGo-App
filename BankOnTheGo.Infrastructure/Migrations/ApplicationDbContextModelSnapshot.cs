@@ -4,23 +4,20 @@ using BankOnTheGo.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BankOnTheGo.API.Migrations
+namespace BankOnTheGo.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250822221712_InitialMigration")]
-    partial class InitialMigration
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "9.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -54,17 +51,17 @@ namespace BankOnTheGo.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dab8e2be-3e35-4971-b245-0b4ee0ff7dd5",
-                            ConcurrencyStamp = "1",
+                            Id = "11111111-1111-1111-1111-111111111111",
+                            ConcurrencyStamp = "11111111-1111-1111-1111-111111111111",
                             Name = "Admin",
-                            NormalizedName = "Admin"
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "965b3761-832c-456b-8141-253051414d2c",
-                            ConcurrencyStamp = "2",
+                            Id = "22222222-2222-2222-2222-222222222222",
+                            ConcurrencyStamp = "22222222-2222-2222-2222-222222222222",
                             Name = "User",
-                            NormalizedName = "User"
+                            NormalizedName = "USER"
                         });
                 });
 

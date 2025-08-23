@@ -1,9 +1,8 @@
 using System.Text;
 using BankOnTheGo.API.Data;
+using BankOnTheGo.Application.Interfaces;
 using BankOnTheGo.Application.Services;
-using BankOnTheGo.Service.Services;
-using BankOnTheGo.Service.Services.Interfaces;
-using BankOnTheGo.Service.Models;
+using BankOnTheGo.Shared.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;

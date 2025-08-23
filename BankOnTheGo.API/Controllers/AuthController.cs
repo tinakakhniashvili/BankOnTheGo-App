@@ -2,13 +2,13 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using BankOnTheGo.API.Models;
+using BankOnTheGo.Application.Interfaces;
 using BankOnTheGo.Service.Models.Authentication.Login;
 using BankOnTheGo.Service.Models.Authentication.SignUp;
+using BankOnTheGo.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using BankOnTheGo.Service.Models;
-using BankOnTheGo.Service.Services.Interfaces;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace BankOnTheGo.API.Controllers

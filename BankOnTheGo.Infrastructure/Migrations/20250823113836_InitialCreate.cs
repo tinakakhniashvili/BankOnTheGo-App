@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace BankOnTheGo.API.Migrations
+namespace BankOnTheGo.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -163,8 +163,8 @@ namespace BankOnTheGo.API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "965b3761-832c-456b-8141-253051414d2c", "2", "User", "User" },
-                    { "dab8e2be-3e35-4971-b245-0b4ee0ff7dd5", "1", "Admin", "Admin" }
+                    { "11111111-1111-1111-1111-111111111111", "11111111-1111-1111-1111-111111111111", "Admin", "ADMIN" },
+                    { "22222222-2222-2222-2222-222222222222", "22222222-2222-2222-2222-222222222222", "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(

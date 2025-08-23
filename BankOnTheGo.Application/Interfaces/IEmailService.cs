@@ -1,6 +1,6 @@
-using BankOnTheGo.Service.Models;
+using BankOnTheGo.Shared.Models;
 
-namespace BankOnTheGo.Service.Services.Interfaces;
+namespace BankOnTheGo.Application.Interfaces;
 
 public interface IEmailService
 {

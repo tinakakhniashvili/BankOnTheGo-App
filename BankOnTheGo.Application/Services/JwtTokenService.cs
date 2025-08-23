@@ -2,10 +2,10 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
+using BankOnTheGo.Application.Interfaces;
 using Microsoft.IdentityModel.Tokens;
-using BankOnTheGo.Service.Services.Interfaces;
 
-namespace BankOnTheGo.Service.Services;
+namespace BankOnTheGo.Application.Services;
 
 public class JwtTokenService : IJwtTokenService
 {

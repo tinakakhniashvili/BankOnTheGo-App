@@ -1,4 +1,4 @@
-namespace BankOnTheGo.Service.Models;
+namespace BankOnTheGo.Shared.Models;
 
 public class ApiResponse<T>
 {

@@ -1,11 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using BankOnTheGo.Service.Models;
+using BankOnTheGo.Application.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using BankOnTheGo.Service.Models.Authentication.Login;
 using BankOnTheGo.Service.Models.Authentication.Responses;
 using BankOnTheGo.Service.Models.Authentication.SignUp;
-using BankOnTheGo.Service.Services.Interfaces;
+using BankOnTheGo.Shared.Models;
 
 namespace BankOnTheGo.Application.Services;
 

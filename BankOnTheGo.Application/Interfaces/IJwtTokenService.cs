@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace BankOnTheGo.Service.Services.Interfaces;
+namespace BankOnTheGo.Application.Interfaces;
 
 public interface IJwtTokenService
 {

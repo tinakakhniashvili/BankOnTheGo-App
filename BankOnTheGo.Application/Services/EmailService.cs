@@ -1,7 +1,7 @@
+using BankOnTheGo.Application.Interfaces;
 using MailKit.Net.Smtp;
 using MimeKit;
-using BankOnTheGo.Service.Models;
-using BankOnTheGo.Service.Services.Interfaces;
+using BankOnTheGo.Shared.Models;
 
 namespace BankOnTheGo.Application.Services;
 

@@ -1,11 +1,11 @@
+using BankOnTheGo.Application.Interfaces;
 using BankOnTheGo.Domain.Authentication.User;
 using Microsoft.AspNetCore.Identity;
-using BankOnTheGo.Service.Models;
 using BankOnTheGo.Service.Models.Authentication.Login;
 using BankOnTheGo.Service.Models.Authentication.SignUp;
-using BankOnTheGo.Service.Services.Interfaces;
+using BankOnTheGo.Shared.Models;
 
-namespace BankOnTheGo.Service.Services;
+namespace BankOnTheGo.Application.Services;
 
 public class UserManagement : IUserManagement
 {

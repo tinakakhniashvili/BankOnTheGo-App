@@ -1,9 +1,9 @@
-using BankOnTheGo.Service.Models;
 using BankOnTheGo.Service.Models.Authentication.Login;
 using BankOnTheGo.Service.Models.Authentication.Responses;
 using BankOnTheGo.Service.Models.Authentication.SignUp;
+using BankOnTheGo.Shared.Models;
 
-namespace BankOnTheGo.Service.Services.Interfaces;
+namespace BankOnTheGo.Application.Interfaces;
 
 public interface IAuthService
 {

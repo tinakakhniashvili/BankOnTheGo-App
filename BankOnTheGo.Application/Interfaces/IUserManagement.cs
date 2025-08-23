@@ -1,10 +1,10 @@
 using BankOnTheGo.Domain.Authentication.User;
 using Microsoft.AspNetCore.Identity;
-using BankOnTheGo.Service.Models;
 using BankOnTheGo.Service.Models.Authentication.Login;
 using BankOnTheGo.Service.Models.Authentication.SignUp;
+using BankOnTheGo.Shared.Models;
 
-namespace BankOnTheGo.Service.Services.Interfaces;
+namespace BankOnTheGo.Application.Interfaces;
 
 public interface IUserManagement
 {

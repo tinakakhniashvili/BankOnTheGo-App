@@ -1,6 +1,6 @@
 using MimeKit;
 
-namespace BankOnTheGo.Service.Models;
+namespace BankOnTheGo.Shared.Models;
 
 public class Message
 {

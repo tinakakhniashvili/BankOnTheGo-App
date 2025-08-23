@@ -20,8 +20,20 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     private static void SeedRoles(ModelBuilder builder)
     {
         builder.Entity<IdentityRole>().HasData(
-            new IdentityRole(){Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin"},
-            new IdentityRole(){Name = "User", ConcurrencyStamp = "2", NormalizedName = "User"}
+            new IdentityRole
+            {
+                Id = "11111111-1111-1111-1111-111111111111",
+                Name = "Admin",
+                NormalizedName = "ADMIN",
+                ConcurrencyStamp = "11111111-1111-1111-1111-111111111111"
+            },
+            new IdentityRole
+            {
+                Id = "22222222-2222-2222-2222-222222222222",
+                Name = "User",
+                NormalizedName = "USER",
+                ConcurrencyStamp = "22222222-2222-2222-2222-222222222222"
+            }
         );
     }
 }
