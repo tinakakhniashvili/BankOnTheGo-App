@@ -149,7 +149,8 @@ namespace BankOnTheGo.API.Controllers
         }
 
 
-        [HttpGet("reset-password-request")]
+        [HttpGet("ResetPassword")]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(string token, string email)
         {
             var model = new ResetPassword{ Token = token, Email = email };

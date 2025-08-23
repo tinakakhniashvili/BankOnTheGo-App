@@ -125,7 +125,7 @@ public class AuthService : IAuthService
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-        var forgotPasswordLink = $"{baseUrl}/Auth/ResetPassword?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(user.Email!)}";
+        var forgotPasswordLink = $"{baseUrl}/api/Auth/ResetPassword?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(user.Email!)}";
 
         var message = new Message(new string[] { user.Email! }, "Reset Password", $"Click this link to reset your password: {forgotPasswordLink}");
         _emailService.SendEmail(message);
