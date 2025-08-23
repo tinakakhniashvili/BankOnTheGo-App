@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOnTheGo", "BankOnTheGo\BankOnTheGo.csproj", "{B98F04D8-E762-4A85-A17A-79412C4FE64E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOnTheGo.API", "BankOnTheGo.API\BankOnTheGo.API.csproj", "{B98F04D8-E762-4A85-A17A-79412C4FE64E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOnTheGo.Application", "BankOnTheGo.Application\BankOnTheGo.Application.csproj", "{5BB4A9A1-443B-4B96-98CB-E00920AB7A5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOnTheGo.Infrastructure", "BankOnTheGo.Infrastructure\BankOnTheGo.Infrastructure.csproj", "{E47414D8-6E8C-4447-B963-81A45C10EE18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOnTheGo.Domain", "BankOnTheGo.Domain\BankOnTheGo.Domain.csproj", "{76A8219E-9BB6-4982-97B9-613D316A1BA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOnTheGo.Shared", "BankOnTheGo.Shared\BankOnTheGo.Shared.csproj", "{E6A6C79C-C7E4-4197-8823-063389E389F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{B98F04D8-E762-4A85-A17A-79412C4FE64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B98F04D8-E762-4A85-A17A-79412C4FE64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B98F04D8-E762-4A85-A17A-79412C4FE64E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BB4A9A1-443B-4B96-98CB-E00920AB7A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BB4A9A1-443B-4B96-98CB-E00920AB7A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BB4A9A1-443B-4B96-98CB-E00920AB7A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BB4A9A1-443B-4B96-98CB-E00920AB7A5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E47414D8-6E8C-4447-B963-81A45C10EE18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E47414D8-6E8C-4447-B963-81A45C10EE18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E47414D8-6E8C-4447-B963-81A45C10EE18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E47414D8-6E8C-4447-B963-81A45C10EE18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76A8219E-9BB6-4982-97B9-613D316A1BA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76A8219E-9BB6-4982-97B9-613D316A1BA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76A8219E-9BB6-4982-97B9-613D316A1BA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76A8219E-9BB6-4982-97B9-613D316A1BA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6A6C79C-C7E4-4197-8823-063389E389F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6A6C79C-C7E4-4197-8823-063389E389F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6A6C79C-C7E4-4197-8823-063389E389F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6A6C79C-C7E4-4197-8823-063389E389F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
