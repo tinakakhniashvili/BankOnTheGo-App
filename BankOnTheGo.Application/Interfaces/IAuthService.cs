@@ -1,7 +1,9 @@
-using BankOnTheGo.Service.Models.Authentication.Login;
-using BankOnTheGo.Service.Models.Authentication.Responses;
-using BankOnTheGo.Service.Models.Authentication.SignUp;
+using BankOnTheGo.Domain.Authentication.Login;
+using BankOnTheGo.Domain.Authentication.Responses;
+using BankOnTheGo.Domain.Authentication.SignUp;
 using BankOnTheGo.Shared.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BankOnTheGo.Application.Interfaces;
 
@@ -12,5 +14,6 @@ public interface IAuthService
     Task<ServiceResult<ConfirmEmailResponse>> ConfirmEmailAsync(string token, string email);
     Task<ServiceResult<ResetPasswordResponse>> ForgotPasswordAsync(string email, string baseUrl);
     Task<ServiceResult<ResetPasswordResponse>> ResetPasswordAsync(string email, string token, string newPassword);
-    Task<ServiceResult<AuthResponse>> LoginWithOtpAsync(string code, string username);
+    Task SendConfirmationEmailAsync(string email, string token, string baseUrl);
+    Task<object> GenerateJwtForUserAsync(IdentityUser user);
 }

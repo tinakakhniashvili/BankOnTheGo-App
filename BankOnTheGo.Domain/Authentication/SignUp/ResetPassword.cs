@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BankOnTheGo.Service.Models.Authentication.SignUp;
+namespace BankOnTheGo.Domain.Authentication.SignUp;
 
 public class ResetPassword
 {

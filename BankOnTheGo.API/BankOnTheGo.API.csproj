@@ -43,4 +43,8 @@
     <ProjectReference Include="..\BankOnTheGo.Shared\BankOnTheGo.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

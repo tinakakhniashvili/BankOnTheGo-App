@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BankOnTheGo.Service.Models.Authentication.Login;
+namespace BankOnTheGo.Domain.Authentication.Login;
 
 public class LoginModel
 {

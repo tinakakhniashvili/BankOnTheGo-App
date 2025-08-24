@@ -1,4 +1,4 @@
-namespace BankOnTheGo.API.Models;
+namespace BankOnTheGo.Domain.Models;
 
 public class Response
 {

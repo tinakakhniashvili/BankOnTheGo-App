@@ -1,10 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using BankOnTheGo.Application.Interfaces;
+using BankOnTheGo.Domain.Authentication.Login;
+using BankOnTheGo.Domain.Authentication.Responses;
+using BankOnTheGo.Domain.Authentication.SignUp;
 using Microsoft.AspNetCore.Identity;
-using BankOnTheGo.Service.Models.Authentication.Login;
-using BankOnTheGo.Service.Models.Authentication.Responses;
-using BankOnTheGo.Service.Models.Authentication.SignUp;
 using BankOnTheGo.Shared.Models;
 
 namespace BankOnTheGo.Application.Services;
@@ -61,9 +61,15 @@ public class AuthService : IAuthService
         if (user == null)
             return ServiceResult<ConfirmEmailResponse>.Fail("User does not exist.");
 
+        // URL-decode token
+        token = Uri.UnescapeDataString(token);
+
         var result = await _userManager.ConfirmEmailAsync(user, token);
         if (!result.Succeeded)
-            return ServiceResult<ConfirmEmailResponse>.Fail("Email confirmation failed.");
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return ServiceResult<ConfirmEmailResponse>.Fail($"Email confirmation failed: {errors}");
+        }
 
         return ServiceResult<ConfirmEmailResponse>.Ok(new ConfirmEmailResponse(user.Email, true));
     }
@@ -114,8 +120,6 @@ public class AuthService : IAuthService
             Message: null
         ));
     }
-    
-
 
     public async Task<ServiceResult<ResetPasswordResponse>> ForgotPasswordAsync(string email, string baseUrl)
     {
@@ -125,8 +129,8 @@ public class AuthService : IAuthService
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-        var forgotPasswordLink = $"{baseUrl}/api/Auth/ResetPassword?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(user.Email!)}";
-
+        var forgotPasswordLink = $"{baseUrl}/api/Auth/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(user.Email!)}";
+        
         var message = new Message(new string[] { user.Email! }, "Reset Password", $"Click this link to reset your password: {forgotPasswordLink}");
         _emailService.SendEmail(message);
         
@@ -146,9 +150,47 @@ public class AuthService : IAuthService
         return ServiceResult<ResetPasswordResponse>.Ok(new ResetPasswordResponse(user.Email!, true, "Password has been reset successfully."));
     }
 
-
-    public Task<ServiceResult<AuthResponse>> LoginWithOtpAsync(string code, string username)
+    public async Task SendConfirmationEmailAsync(string email, string token, string baseUrl)
     {
-        throw new NotImplementedException();
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null)
+            throw new Exception("User not found");
+        
+        var encodedToken = Uri.EscapeDataString(token);
+
+        var confirmationLink = $"{baseUrl}/api/auth/confirm-email?token={encodedToken}&email={email}";
+
+        var message = new Message(
+            new[] { email },
+            "Confirm your email",
+            $"Hello {user.UserName}, please confirm your account by clicking this link: {confirmationLink}"
+        );
+
+        await _emailService.SendEmail(message);
+    }
+
+
+    public async Task<object> GenerateJwtForUserAsync(IdentityUser user)
+    {
+        var roles = await _userManager.GetRolesAsync(user);
+
+        var authClaims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+        foreach (var role in roles)
+        {
+            authClaims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        var token = _jwtTokenService.GetToken(authClaims);
+
+        return new
+        {
+            token = new JwtSecurityTokenHandler().WriteToken(token),
+            expiration = token.ValidTo
+        };
     }
 }
