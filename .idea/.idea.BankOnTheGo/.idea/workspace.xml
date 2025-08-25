@@ -8,7 +8,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f370128-1eaa-4312-a4e3-3c152ab6ffad" name="Changes" comment="" />
+    <list default="true" id="4f370128-1eaa-4312-a4e3-3c152ab6ffad" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/BankOnTheGo.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/BankOnTheGo.API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IAuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IAuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/AuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/BankOnTheGo.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/BankOnTheGo.Infrastructure.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/20250823113836_InitialCreate.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/20250823113836_InitialCreate.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,9 +44,9 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/IRefreshTokenRepository.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Repositories/RefreshTokenRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/ApplicationUser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/RefreshToken.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContextFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/9a5d31bde32f492a926aa5f2ce051a9d11800/5b/bb7cd418/02000024pdb1.il" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/104cad793f134c54938f0f0a18d2b2065200/28/cf7e4a34/IEmailService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3e6cfa91023d4528a577156f118914ae141b0/6f/096c3c8e/JwtSecurityToken.cs" root0="FORCE_HIGHLIGHTING" />
@@ -64,8 +75,10 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;.NET Launch Settings Profile.BankOnTheGo.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/lesifuges/Documents/BankOnTheGo-App/BankOnTheGo.sln&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -128,6 +141,8 @@
       <workItem from="1755867853519" duration="719000" />
       <workItem from="1755868716439" duration="7642000" />
       <workItem from="1755900746703" duration="20005000" />
+      <workItem from="1756006909478" duration="5589000" />
+      <workItem from="1756019376428" duration="7736000" />
     </task>
     <servers />
   </component>

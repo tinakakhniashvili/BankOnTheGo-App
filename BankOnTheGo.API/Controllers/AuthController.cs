@@ -3,6 +3,7 @@ using BankOnTheGo.Application.Interfaces;
 using BankOnTheGo.Domain.Authentication.Login;
 using BankOnTheGo.Domain.Authentication.SignUp;
 using BankOnTheGo.Domain.Models;
+using BankOnTheGo.Domain.Authentication.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,13 +14,13 @@ namespace BankOnTheGo.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAuthService _authService;
 
         public AuthController(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IAuthService authService)
         {
             _userManager = userManager;
@@ -36,9 +37,9 @@ namespace BankOnTheGo.API.Controllers
             var result = await _authService.RegisterAsync(registerUser, role);
             if (!result.Success)
                 return BadRequest(new Response { Status = "Error", Message = result.Error });
-            
+
             string baseUrl = $"{Request.Scheme}://{Request.Host}";
-            await _authService.SendConfirmationEmailAsync(registerUser.Email, result.Data, baseUrl);
+            await _authService.SendConfirmationEmailAsync(registerUser.Email!, result.Data!, baseUrl);
 
             return StatusCode(201, new Response
             {
@@ -50,9 +51,9 @@ namespace BankOnTheGo.API.Controllers
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
-            var result = await _authService.ConfirmEmailAsync(token, email);
+            var result = await _authService.ConfirmEmailAsync(token!, email!);
             return result.Success
-                ? Ok(new Response { Status = "Success", Message = "Email confirmed successfully." , IsSuccess = true })
+                ? Ok(new Response { Status = "Success", Message = "Email confirmed successfully.", IsSuccess = true })
                 : BadRequest(new Response { Status = "Error", Message = result.Error });
         }
 
@@ -68,13 +69,13 @@ namespace BankOnTheGo.API.Controllers
         [HttpPost("login-2fa")]
         public async Task<IActionResult> LoginTwoFactor(string code, string username)
         {
-            var signInResult = await _signInManager.TwoFactorSignInAsync("Email", code, false, false);
-            if (!signInResult.Succeeded)
-                return Unauthorized(new Response { Status = "Error", Message = "Invalid or expired OTP code" });
-
             var user = await _userManager.FindByNameAsync(username);
             if (user == null)
                 return NotFound(new Response { Status = "Error", Message = "User not found" });
+
+            var signInResult = await _signInManager.TwoFactorSignInAsync("Email", code, false, false);
+            if (!signInResult.Succeeded)
+                return Unauthorized(new Response { Status = "Error", Message = "Invalid or expired OTP code" });
 
             var jwtResult = await _authService.GenerateJwtForUserAsync(user);
             return Ok(jwtResult);

@@ -6,34 +6,39 @@ using BankOnTheGo.Domain.Authentication.Responses;
 using BankOnTheGo.Domain.Authentication.SignUp;
 using Microsoft.AspNetCore.Identity;
 using BankOnTheGo.Shared.Models;
+using BankOnTheGo.Domain.Authentication.User;
 
 namespace BankOnTheGo.Application.Services;
 
 public class AuthService : IAuthService
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IEmailService _emailService;
     private readonly IJwtTokenService _jwtTokenService;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-
-    public AuthService(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IEmailService emailService, IJwtTokenService jwtTokenService, RoleManager<IdentityRole> roleManager)
+    public AuthService(
+        UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager,
+        IEmailService emailService,
+        IJwtTokenService jwtTokenService,
+        RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _emailService = emailService;
-        _jwtTokenService=jwtTokenService;
+        _jwtTokenService = jwtTokenService;
         _roleManager = roleManager;
     }
-    
+
     public async Task<ServiceResult<string>> RegisterAsync(RegisterUser registerUser, string role)
     {
         var userExist = await _userManager.FindByEmailAsync(registerUser.Email);
         if (userExist != null)
             return ServiceResult<string>.Fail("User already exists.");
 
-        IdentityUser user = new()
+        var user = new ApplicationUser
         {
             Email = registerUser.Email,
             UserName = registerUser.Username,
@@ -49,11 +54,10 @@ public class AuthService : IAuthService
             return ServiceResult<string>.Fail("User creation failed.");
 
         await _userManager.AddToRoleAsync(user, role);
-        
-        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        return ServiceResult<string>.Ok(token); 
-    }
 
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        return ServiceResult<string>.Ok(token);
+    }
 
     public async Task<ServiceResult<ConfirmEmailResponse>> ConfirmEmailAsync(string token, string email)
     {
@@ -61,7 +65,6 @@ public class AuthService : IAuthService
         if (user == null)
             return ServiceResult<ConfirmEmailResponse>.Fail("User does not exist.");
 
-        // URL-decode token
         token = Uri.UnescapeDataString(token);
 
         var result = await _userManager.ConfirmEmailAsync(user, token);
@@ -74,18 +77,15 @@ public class AuthService : IAuthService
         return ServiceResult<ConfirmEmailResponse>.Ok(new ConfirmEmailResponse(user.Email, true));
     }
 
-
     public async Task<ServiceResult<AuthResponse>> LoginAsync(LoginModel loginModel)
     {
         var user = await _userManager.FindByNameAsync(loginModel.Username);
         if (user == null || !await _userManager.CheckPasswordAsync(user, loginModel.Password))
-        {
             return ServiceResult<AuthResponse>.Fail("Invalid username or password");
-        }
-        
+
         await _signInManager.SignOutAsync();
         await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, true);
-        
+
         var authClaims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.UserName),
@@ -94,15 +94,12 @@ public class AuthService : IAuthService
 
         var userRoles = await _userManager.GetRolesAsync(user);
         foreach (var role in userRoles)
-        {
             authClaims.Add(new Claim(ClaimTypes.Role, role));
-        }
-        
+
         if (user.TwoFactorEnabled)
         {
             var token = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
-
-            var message = new Message(new string[] { user.Email! }, "OTP Confirmation", token);
+            var message = new Message(new[] { user.Email! }, "OTP Confirmation", token);
             _emailService.SendEmail(message);
 
             return ServiceResult<AuthResponse>.Ok(new AuthResponse(
@@ -111,7 +108,7 @@ public class AuthService : IAuthService
                 Message: $"We have sent an OTP to your email {user.Email}"
             ));
         }
-        
+
         var jwtToken = _jwtTokenService.GetToken(authClaims);
 
         return ServiceResult<AuthResponse>.Ok(new AuthResponse(
@@ -130,10 +127,9 @@ public class AuthService : IAuthService
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
         var forgotPasswordLink = $"{baseUrl}/api/Auth/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(user.Email!)}";
-        
-        var message = new Message(new string[] { user.Email! }, "Reset Password", $"Click this link to reset your password: {forgotPasswordLink}");
+        var message = new Message(new[] { user.Email! }, "Reset Password", $"Click this link to reset your password: {forgotPasswordLink}");
         _emailService.SendEmail(message);
-        
+
         return ServiceResult<ResetPasswordResponse>.Ok(new ResetPasswordResponse(user.Email!, false, $"Password reset link sent to {user.Email}."));
     }
 
@@ -155,9 +151,8 @@ public class AuthService : IAuthService
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
             throw new Exception("User not found");
-        
-        var encodedToken = Uri.EscapeDataString(token);
 
+        var encodedToken = Uri.EscapeDataString(token);
         var confirmationLink = $"{baseUrl}/api/auth/confirm-email?token={encodedToken}&email={email}";
 
         var message = new Message(
@@ -169,8 +164,7 @@ public class AuthService : IAuthService
         await _emailService.SendEmail(message);
     }
 
-
-    public async Task<object> GenerateJwtForUserAsync(IdentityUser user)
+    public async Task<object> GenerateJwtForUserAsync(ApplicationUser user)
     {
         var roles = await _userManager.GetRolesAsync(user);
 
@@ -181,9 +175,7 @@ public class AuthService : IAuthService
         };
 
         foreach (var role in roles)
-        {
             authClaims.Add(new Claim(ClaimTypes.Role, role));
-        }
 
         var token = _jwtTokenService.GetToken(authClaims);
 

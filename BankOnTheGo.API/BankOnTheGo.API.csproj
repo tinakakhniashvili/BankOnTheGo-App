@@ -28,6 +28,7 @@
     <PackageReference Include="DotNetEnv" Version="3.0.0" />
     <PackageReference Include="MimeKit" Version="4.13.0" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
 
     <!-- API documentation -->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1" />
