@@ -4,9 +4,11 @@ using BankOnTheGo.Domain.Authentication.Login;
 using BankOnTheGo.Domain.Authentication.SignUp;
 using BankOnTheGo.Domain.Models;
 using BankOnTheGo.Domain.Authentication.User;
+using BankOnTheGo.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankOnTheGo.API.Controllers
 {
@@ -17,15 +19,21 @@ namespace BankOnTheGo.API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAuthService _authService;
+        private readonly ApplicationDbContext _context;
+        private readonly IJwtTokenService _jwtTokenService;
 
         public AuthController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IAuthService authService)
+            IAuthService authService,
+            ApplicationDbContext context,
+            IJwtTokenService jwtTokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _authService = authService;
+            _context = context;
+            _jwtTokenService = jwtTokenService;
         }
 
         [HttpPost("register")]
@@ -108,6 +116,49 @@ namespace BankOnTheGo.API.Controllers
         {
             var model = new ResetPassword { Token = token, Email = email };
             return Ok(new { model });
+        }
+        
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] string refreshToken)
+        {
+            var tokenEntity = await _context.RefreshTokens
+                .Include(rt => rt.User)
+                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+
+            if (tokenEntity == null || !tokenEntity.IsActive)
+                return Unauthorized(new Response { Status = "Error", Message = "Invalid or expired refresh token" });
+
+            // rotate refresh token
+            tokenEntity.Revoked = DateTime.UtcNow;
+            tokenEntity.RevokedByIp = HttpContext.Connection.RemoteIpAddress?.ToString();
+
+            var newTokens = await _jwtTokenService.GenerateTokensAsync(tokenEntity.User, tokenEntity.RevokedByIp!);
+            tokenEntity.ReplacedByToken = newTokens.RefreshToken.Token;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                AccessToken = newTokens.AccessToken,
+                RefreshToken = newTokens.RefreshToken.Token
+            });
+        }
+        
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout([FromBody] string refreshToken)
+        {
+            var tokenEntity = await _context.RefreshTokens
+                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+
+            if (tokenEntity == null)
+                return NotFound(new Response { Status = "Error", Message = "Token not found" });
+
+            tokenEntity.Revoked = DateTime.UtcNow;
+            tokenEntity.RevokedByIp = HttpContext.Connection.RemoteIpAddress?.ToString();
+            await _context.SaveChangesAsync();
+
+            return Ok(new Response { Status = "Success", Message = "Logged out successfully" });
         }
     }
 }

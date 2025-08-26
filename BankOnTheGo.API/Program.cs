@@ -1,10 +1,12 @@
 using System.Text;
 using BankOnTheGo.Application.Interfaces;
+using BankOnTheGo.Application.Repositories;
 using BankOnTheGo.Application.Services;
 using BankOnTheGo.Domain.Authentication.User;
 using BankOnTheGo.Infrastructure.Data;
 using BankOnTheGo.Shared.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,10 +15,7 @@ using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
-if (builder.Environment.IsDevelopment())
-{
-    builder.Configuration.AddUserSecrets<Program>(optional: true);
-}
+
 var configuration = builder.Configuration;
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -35,6 +34,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opts =>
     opts.TokenLifespan = TimeSpan.FromHours(10));
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -72,9 +72,12 @@ builder.Services.AddMailKit(config => config.UseMailKit(new MailKitOptions
     Security = true
 }));
 
+builder.Services.AddScoped<IWalletRepository,WalletRepository>();
+
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<IWalletService, WalletService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -102,7 +105,17 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
 var app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    KnownNetworks = { },  
+    KnownProxies = { },   
+    RequireHeaderSymmetry = false
+});
+
 
 if (app.Environment.IsDevelopment())
 {

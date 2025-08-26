@@ -12,7 +12,6 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
             .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../BankOnTheGo.API"))
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
-            .AddUserSecrets<ApplicationDbContextFactory>(optional: true)
             .Build();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");

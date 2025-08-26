@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankOnTheGo.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250825023602_InitialCreate")]
+    [Migration("20250825211828_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
