@@ -280,11 +280,13 @@ namespace BankOnTheGo.Infrastructure.Migrations
 
             modelBuilder.Entity("BankOnTheGo.Domain.Authentication.User.RefreshToken", b =>
                 {
-                    b.HasOne("BankOnTheGo.Domain.Authentication.User.ApplicationUser", null)
+                    b.HasOne("BankOnTheGo.Domain.Authentication.User.ApplicationUser", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

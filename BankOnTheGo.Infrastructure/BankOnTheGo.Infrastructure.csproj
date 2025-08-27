@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\BankOnTheGo.Domain\BankOnTheGo.Domain.csproj" />
       <ProjectReference Include="..\BankOnTheGo.Shared\BankOnTheGo.Shared.csproj" />
+      <ProjectReference Include="..\BankOnTheGo.Application\BankOnTheGo.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>

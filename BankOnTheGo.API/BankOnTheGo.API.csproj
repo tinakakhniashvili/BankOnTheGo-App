@@ -42,9 +42,11 @@
     <ProjectReference Include="..\BankOnTheGo.Domain\BankOnTheGo.Domain.csproj" />
     <ProjectReference Include="..\BankOnTheGo.Application\BankOnTheGo.Application.csproj" />
     <ProjectReference Include="..\BankOnTheGo.Shared\BankOnTheGo.Shared.csproj" />
+    <ProjectReference Include="..\BankOnTheGo.Infrastructure\BankOnTheGo.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Middlewares\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

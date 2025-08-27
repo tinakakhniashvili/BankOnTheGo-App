@@ -1,4 +1,4 @@
-namespace BankOnTheGo.Domain.Wallet;
+namespace BankOnTheGo.Domain.DTOs;
 
 public enum TransactionType
 {
@@ -7,7 +7,7 @@ public enum TransactionType
     Transfer
 }
 
-public class Transaction
+public class TransactionDto
 {
     public int Id { get; set; }
     public string UserId { get; set; } 

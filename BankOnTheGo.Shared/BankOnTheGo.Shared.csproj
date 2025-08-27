@@ -10,4 +10,8 @@
       <PackageReference Include="MimeKit" Version="4.13.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Constants\" />
+    </ItemGroup>
+
 </Project>

@@ -1,10 +1,9 @@
-using BankOnTheGo.Application.Interfaces;
+using BankOnTheGo.Application.Interfaces.Repositories;
 using BankOnTheGo.Domain.DTOs;
-using BankOnTheGo.Domain.Wallet;
 using BankOnTheGo.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankOnTheGo.Application.Repositories;
+namespace BankOnTheGo.Infrastructure.Repositories;
 
 public class WalletRepository : IWalletRepository
 {
@@ -15,29 +14,29 @@ public class WalletRepository : IWalletRepository
         _context = context;
     }
 
-    public async Task<Wallet?> GetWalletByUserIdAsync(string userId)
+    public async Task<WalletDto?> GetWalletByUserIdAsync(string userId)
     {
-        return await _context.Set<Wallet>()
+        return await _context.Set<WalletDto>()
             .Include(w => w.Transactions)
             .FirstOrDefaultAsync(w => w.UserId == userId);
     }
 
-    public async Task AddWalletAsync(Wallet wallet)
+    public async Task AddWalletAsync(WalletDto walletDto)
     {
-        await _context.Set<Wallet>().AddAsync(wallet);
+        await _context.Set<WalletDto>().AddAsync(walletDto);
     }
 
-    public async Task<List<Transaction>> GetTransactionsAsync(string userId)
+    public async Task<List<TransactionDto>> GetTransactionsAsync(string userId)
     {
-        return await _context.Set<Transaction>()
+        return await _context.Set<TransactionDto>()
             .Where(t => t.UserId == userId)
             .OrderByDescending(t => t.Date)
             .ToListAsync();
     }
 
-    public async Task AddTransactionAsync(Transaction transaction)
+    public async Task AddTransactionAsync(TransactionDto transactionDto)
     {
-        await _context.Set<Transaction>().AddAsync(transaction);
+        await _context.Set<TransactionDto>().AddAsync(transactionDto);
     }
 
     public async Task SaveChangesAsync()

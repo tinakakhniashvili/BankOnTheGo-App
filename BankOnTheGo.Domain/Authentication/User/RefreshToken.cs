@@ -15,4 +15,10 @@ public class RefreshToken
     public bool IsActive => Revoked == null && !IsExpired;
     public string UserId { get; set; }  = string.Empty;
     public ApplicationUser User { get; set; }
+    
+    public void Revoke(string? ipAddress)
+    {
+        Revoked = DateTime.UtcNow;
+        RevokedByIp = ipAddress;
+    }
 }

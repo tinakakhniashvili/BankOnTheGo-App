@@ -1,6 +1,6 @@
 using BankOnTheGo.Application.Interfaces;
+using BankOnTheGo.Application.Interfaces.Repositories;
 using BankOnTheGo.Domain.DTOs;
-using BankOnTheGo.Domain.Wallet;
 
 namespace BankOnTheGo.Application.Services
 {
@@ -13,13 +13,13 @@ namespace BankOnTheGo.Application.Services
             _walletRepository = walletRepository;
         }
 
-        public async Task<Wallet> GetWalletAsync(string userId)
+        public async Task<WalletDto> GetWalletAsync(string userId)
         {
             var wallet = await _walletRepository.GetWalletByUserIdAsync(userId);
 
             if (wallet == null)
             {
-                wallet = new Wallet { UserId = userId, Balance = 0 };
+                wallet = new WalletDto { UserId = userId, Balance = 0 };
                 await _walletRepository.AddWalletAsync(wallet);
                 await _walletRepository.SaveChangesAsync();
             }
@@ -27,12 +27,12 @@ namespace BankOnTheGo.Application.Services
             return wallet;
         }
 
-        public async Task<List<Transaction>> GetTransactionHistoryAsync(string userId)
+        public async Task<List<TransactionDto>> GetTransactionHistoryAsync(string userId)
         {
             return await _walletRepository.GetTransactionsAsync(userId);
         }
 
-        public async Task<Transaction> AddTransactionAsync(string userId, decimal amount, TransactionType type, string? description = null)
+        public async Task<TransactionDto> AddTransactionAsync(string userId, decimal amount, TransactionType type, string? description = null)
         {
             var wallet = await GetWalletAsync(userId);
 
@@ -41,7 +41,7 @@ namespace BankOnTheGo.Application.Services
 
             wallet.Balance += (type == TransactionType.Deposit || type == TransactionType.Transfer ? amount : -amount);
 
-            var transaction = new Transaction
+            var transaction = new TransactionDto
             {
                 UserId = userId,
                 Amount = amount,

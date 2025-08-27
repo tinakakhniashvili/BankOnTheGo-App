@@ -16,12 +16,16 @@ namespace BankOnTheGo.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
-            builder.Entity<ApplicationUser>()
-                .HasMany(u => u.RefreshTokens)
-                .WithOne()
-                .HasForeignKey(rt => rt.UserId)
-                .IsRequired();
+
+            builder.Entity<RefreshToken>(e =>
+            {
+                e.HasKey(rt => rt.Id);
+
+                e.HasOne(rt => rt.User)
+                    .WithMany(u => u.RefreshTokens)
+                    .HasForeignKey(rt => rt.UserId)
+                    .OnDelete(DeleteBehavior.Cascade); 
+            });
 
             SeedRoles(builder);
         }

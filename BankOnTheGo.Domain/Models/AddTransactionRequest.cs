@@ -1,4 +1,4 @@
-using BankOnTheGo.Domain.Wallet;
+using BankOnTheGo.Domain.DTOs;
 
 namespace BankOnTheGo.Domain.Models;
 

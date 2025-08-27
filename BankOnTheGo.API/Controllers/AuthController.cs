@@ -1,164 +1,161 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using BankOnTheGo.Application.Interfaces;
+using System.Net;
+using BankOnTheGo.Application.Interfaces.Auth;
 using BankOnTheGo.Domain.Authentication.Login;
 using BankOnTheGo.Domain.Authentication.SignUp;
-using BankOnTheGo.Domain.Models;
 using BankOnTheGo.Domain.Authentication.User;
+using BankOnTheGo.Domain.Models;
 using BankOnTheGo.Infrastructure.Data;
-using Microsoft.AspNetCore.Mvc;
+using BankOnTheGo.API.Helpers;
+using BankOnTheGo.Application.Interfaces;
+using BankOnTheGo.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankOnTheGo.API.Controllers
+namespace BankOnTheGo.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AuthController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    private readonly IAuthFacade _authFacade;
+    private readonly ApplicationDbContext _context;
+    private readonly IJwtTokenService _jwtTokenService;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IEmailService _emailService;
+
+    public AuthController(
+        IAuthFacade authFacade,
+        ApplicationDbContext context,
+        IJwtTokenService jwtTokenService,
+        UserManager<ApplicationUser> userManager,
+        IEmailService emailService)
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IAuthService _authService;
-        private readonly ApplicationDbContext _context;
-        private readonly IJwtTokenService _jwtTokenService;
+        _authFacade       = authFacade;
+        _context          = context;
+        _jwtTokenService  = jwtTokenService;
+        _userManager      = userManager;
+        _emailService     = emailService;
+    }
 
-        public AuthController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IAuthService authService,
-            ApplicationDbContext context,
-            IJwtTokenService jwtTokenService)
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterUser registerUser, [FromQuery] string role)
+    {
+        if (string.IsNullOrWhiteSpace(role))
+            return BadRequest(new Response { Status = "Error", Message = "Role is required", IsSuccess = false });
+
+        var result = await _authFacade.RegisterAsync(registerUser, role);
+        if (!result.Success)
+            return this.HandleResult(result);
+
+        var token        = result.Data;
+        var encodedToken = WebUtility.UrlEncode(token);
+        var encodedEmail = WebUtility.UrlEncode(registerUser.Email);
+        var confirmUrl   = $"{Request.Scheme}://{Request.Host}/api/auth/confirm-email?token={encodedToken}&email={encodedEmail}";
+
+        var message = new Message(
+            new[] { registerUser.Email },
+            "Confirm your email",
+            $"Please confirm your account by clicking this link: {confirmUrl}"
+        );
+
+        await _emailService.SendEmail(message);
+
+        return StatusCode(201, new Response
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _authService = authService;
-            _context = context;
-            _jwtTokenService = jwtTokenService;
-        }
+            Status    = "Success",
+            Message   = $"User created & email sent to {registerUser.Email}",
+            IsSuccess = true
+        });
+    }
+    
+    [HttpGet("confirm-email")]
+    public async Task<IActionResult> ConfirmEmail([FromQuery] string token, [FromQuery] string email)
+    {
+        var result = await _authFacade.ConfirmEmailAsync(token, email);
+        return result.Success
+            ? Ok(new Response { Status = "Success", Message = "Email confirmed successfully.", IsSuccess = true })
+            : this.HandleResult(result);
+    }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUser registerUser, string role)
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+    {
+        var result = await _authFacade.LoginAsync(loginModel);
+        return result.Success
+            ? Ok(result.Data)
+            : Unauthorized(new Response { Status = "Error", Message = result.Error, IsSuccess = false });
+    }
+
+    [HttpPost("login-2fa")]
+    public async Task<IActionResult> LoginTwoFactor([FromQuery] string code, [FromQuery] string username)
+    {
+        var user = await _userManager.FindByNameAsync(username) 
+                   ?? await _userManager.FindByEmailAsync(username);
+        if (user == null)
+            return NotFound(new Response { Status = "Error", Message = "User not found", IsSuccess = false });
+
+        var isValid = await _userManager.VerifyTwoFactorTokenAsync(user, "Email", code);
+        if (!isValid)
+            return Unauthorized(new Response { Status = "Error", Message = "Invalid or expired OTP code", IsSuccess = false });
+
+        var tokens = await _jwtTokenService.GenerateTokensAsync(user, HttpContext.Connection.RemoteIpAddress?.ToString());
+        return Ok(new
         {
-            if (string.IsNullOrWhiteSpace(role))
-                return BadRequest(new Response { Status = "Error", Message = "Role is required" });
+            Email        = user.Email,
+            AccessToken  = tokens.AccessToken,
+            RefreshToken = tokens.RefreshToken.Token
+        });
+    }
 
-            var result = await _authService.RegisterAsync(registerUser, role);
-            if (!result.Success)
-                return BadRequest(new Response { Status = "Error", Message = result.Error });
+    [HttpPost("forgot-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ForgotPassword([Required] string email)
+    {
+        var result = await _authFacade.SendResetAsync(email);
+        return this.HandleResult(result);
+    }
 
-            string baseUrl = $"{Request.Scheme}://{Request.Host}";
-            await _authService.SendConfirmationEmailAsync(registerUser.Email!, result.Data!, baseUrl);
+    [HttpPost("reset-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword([Required] string email, [Required] string token, [Required] string newPassword)
+    {
+        var result = await _authFacade.ResetAsync(email, token, newPassword);
+        return this.HandleResult(result);
+    }
 
-            return StatusCode(201, new Response
-            {
-                Status = "Success",
-                Message = $"User created & email sent to {registerUser.Email}",
-            });
-        }
+    [HttpGet("reset-password")]
+    [AllowAnonymous]
+    public IActionResult GetResetPasswordModel([FromQuery] string token, [FromQuery] string email)
+        => Ok(new { model = new ResetPassword { Token = token, Email = email } });
 
-        [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail(string token, string email)
-        {
-            var result = await _authService.ConfirmEmailAsync(token!, email!);
-            return result.Success
-                ? Ok(new Response { Status = "Success", Message = "Email confirmed successfully.", IsSuccess = true })
-                : BadRequest(new Response { Status = "Error", Message = result.Error });
-        }
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh([FromBody] string refreshToken)
+    {
+        var tokenEntity = await _context.RefreshTokens
+            .Include(rt => rt.User)
+            .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
-        {
-            var result = await _authService.LoginAsync(loginModel);
-            return result.Success
-                ? Ok(result.Data)
-                : Unauthorized(new Response { Status = "Error", Message = result.Error });
-        }
+        if (tokenEntity == null || !tokenEntity.IsActive)
+            return Unauthorized(new Response { Status = "Error", Message = "Invalid or expired refresh token", IsSuccess = false });
 
-        [HttpPost("login-2fa")]
-        public async Task<IActionResult> LoginTwoFactor(string code, string username)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-            if (user == null)
-                return NotFound(new Response { Status = "Error", Message = "User not found" });
+        var newTokens = await _jwtTokenService.RefreshTokenAsync(tokenEntity, HttpContext.Connection.RemoteIpAddress?.ToString());
+        return Ok(new { AccessToken = newTokens.AccessToken, RefreshToken = newTokens.RefreshToken.Token });
+    }
 
-            var signInResult = await _signInManager.TwoFactorSignInAsync("Email", code, false, false);
-            if (!signInResult.Succeeded)
-                return Unauthorized(new Response { Status = "Error", Message = "Invalid or expired OTP code" });
+    [HttpPost("logout")]
+    [Authorize]
+    public async Task<IActionResult> Logout([FromBody] string refreshToken)
+    {
+        var tokenEntity = await _context.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+        if (tokenEntity == null)
+            return NotFound(new Response { Status = "Error", Message = "Token not found", IsSuccess = false });
 
-            var jwtResult = await _authService.GenerateJwtForUserAsync(user);
-            return Ok(jwtResult);
-        }
+        tokenEntity.Revoke(HttpContext.Connection.RemoteIpAddress?.ToString());
+        await _context.SaveChangesAsync();
 
-        [HttpPost("forgot-password")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([Required] string email)
-        {
-            string baseUrl = $"{Request.Scheme}://{Request.Host}";
-            var result = await _authService.ForgotPasswordAsync(email, baseUrl);
-            return result.Success
-                ? Ok(new Response { Status = "Success", Message = result.Data!.Message })
-                : BadRequest(new Response { Status = "Error", Message = result.Error });
-        }
-
-        [HttpPost("reset-password")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword([Required] string email, [Required] string token, [Required] string newPassword)
-        {
-            var result = await _authService.ResetPasswordAsync(email, token, newPassword);
-            return result.Success
-                ? Ok(new Response { Status = "Success", Message = result.Data!.Message })
-                : BadRequest(new Response { Status = "Error", Message = result.Error });
-        }
-
-        [HttpGet("reset-password")]
-        [AllowAnonymous]
-        public IActionResult GetResetPasswordModel(string token, string email)
-        {
-            var model = new ResetPassword { Token = token, Email = email };
-            return Ok(new { model });
-        }
-        
-        [HttpPost("refresh")]
-        public async Task<IActionResult> Refresh([FromBody] string refreshToken)
-        {
-            var tokenEntity = await _context.RefreshTokens
-                .Include(rt => rt.User)
-                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
-
-            if (tokenEntity == null || !tokenEntity.IsActive)
-                return Unauthorized(new Response { Status = "Error", Message = "Invalid or expired refresh token" });
-
-            // rotate refresh token
-            tokenEntity.Revoked = DateTime.UtcNow;
-            tokenEntity.RevokedByIp = HttpContext.Connection.RemoteIpAddress?.ToString();
-
-            var newTokens = await _jwtTokenService.GenerateTokensAsync(tokenEntity.User, tokenEntity.RevokedByIp!);
-            tokenEntity.ReplacedByToken = newTokens.RefreshToken.Token;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(new
-            {
-                AccessToken = newTokens.AccessToken,
-                RefreshToken = newTokens.RefreshToken.Token
-            });
-        }
-        
-        [HttpPost("logout")]
-        [Authorize]
-        public async Task<IActionResult> Logout([FromBody] string refreshToken)
-        {
-            var tokenEntity = await _context.RefreshTokens
-                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
-
-            if (tokenEntity == null)
-                return NotFound(new Response { Status = "Error", Message = "Token not found" });
-
-            tokenEntity.Revoked = DateTime.UtcNow;
-            tokenEntity.RevokedByIp = HttpContext.Connection.RemoteIpAddress?.ToString();
-            await _context.SaveChangesAsync();
-
-            return Ok(new Response { Status = "Success", Message = "Logged out successfully" });
-        }
+        return Ok(new Response { Status = "Success", Message = "Logged out successfully", IsSuccess = true });
     }
 }

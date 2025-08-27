@@ -1,6 +1,6 @@
 namespace BankOnTheGo.Domain.DTOs;
 
-public class WalletRequest
+public class WalletRequestDto
 {
     
 }
