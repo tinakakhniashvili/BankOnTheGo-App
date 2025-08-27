@@ -1,6 +1,3 @@
 namespace BankOnTheGo.Domain.DTOs;
 
-public class WalletRequestDto
-{
-    
-}
+public record WalletRequestDto(string Currency);

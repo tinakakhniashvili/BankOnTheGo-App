@@ -1,4 +1,5 @@
 using BankOnTheGo.Domain.Authentication.User;
+using BankOnTheGo.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,8 @@ namespace BankOnTheGo.Infrastructure.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<LedgerEntry> LedgerEntries { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -24,7 +27,32 @@ namespace BankOnTheGo.Infrastructure.Data
                 e.HasOne(rt => rt.User)
                     .WithMany(u => u.RefreshTokens)
                     .HasForeignKey(rt => rt.UserId)
-                    .OnDelete(DeleteBehavior.Cascade); 
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<Wallet>(e =>
+            {
+                e.HasKey(x => x.Id);
+                e.Property(x => x.Currency).HasMaxLength(3).IsRequired();
+                e.HasIndex(x => new { x.UserId, x.Currency }).IsUnique();
+                e.Property(x => x.Status).IsRequired();
+                e.Property(x => x.CreatedAtUtc).IsRequired();
+            });
+
+            builder.Entity<LedgerEntry>(e =>
+            {
+                e.HasKey(x => x.Id);
+                e.Property(x => x.AmountMinor).IsRequired();
+                e.Property(x => x.Currency).HasMaxLength(3).IsRequired();
+                e.Property(x => x.Type).IsRequired();
+                e.Property(x => x.CreatedAtUtc).IsRequired();
+                e.Property(x => x.CorrelationId).HasMaxLength(64);
+                e.HasIndex(x => x.CorrelationId);
+
+                e.HasOne(x => x.Wallet)
+                    .WithMany(w => w.Ledger)
+                    .HasForeignKey(x => x.WalletId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             SeedRoles(builder);

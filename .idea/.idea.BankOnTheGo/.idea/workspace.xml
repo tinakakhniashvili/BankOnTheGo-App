@@ -10,25 +10,18 @@
   <component name="ChangeListManager">
     <list default="true" id="4f370128-1eaa-4312-a4e3-3c152ab6ffad" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/BankOnTheGo.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/BankOnTheGo.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/AuthController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/WalletController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/WalletController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/BankOnTheGo.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/BankOnTheGo.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IAuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IAuthService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IJwtTokenService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IJwtTokenService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IWalletRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/IWalletRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IWalletService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IWalletService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Repositories/WalletRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/WalletRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/AuthService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/JwtTokenService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/IWalletRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/IWalletRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/WalletService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/WalletService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/RefreshToken.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/RefreshToken.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/Transaction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/TransactionDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/Wallet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletRequestDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/TransactionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/TransactionDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletRequestDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletRequestDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/AddTransactionRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/AddTransactionRequest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/BankOnTheGo.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/BankOnTheGo.Infrastructure.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Shared/BankOnTheGo.Shared.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Shared/BankOnTheGo.Shared.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/WalletRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/WalletRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,27 +55,33 @@
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Helpers/ControllerResultExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IAuthFacade.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IAuthenticationService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IJwtIssuer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IPasswordRecoveryService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IRegistrationService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IUserAccountService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IWalletService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/IWalletRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/AuthFacade.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/AuthenticationService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/PasswordRecoveryService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/RegistrationService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Services/WalletService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Validators/AddTransactionRequestDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Validators/WalletRequestValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/ApplicationUser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/RefreshToken.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/AddTransactionRequestDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/TransactionDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletDto.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletRequestDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/Models/AddTransactionRequest.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContextFactory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/Models/LedgerEntry.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/Models/Wallet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/WalletRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/9a5d31bde32f492a926aa5f2ce051a9d11800/5b/bb7cd418/02000024pdb1.il" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/104cad793f134c54938f0f0a18d2b2065200/28/cf7e4a34/IEmailService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3e6cfa91023d4528a577156f118914ae141b0/6f/096c3c8e/JwtSecurityToken.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fa4057aff1e84cf08b5d5a55ae6bd95c8e200/73/cb6ee2a2/IEmailSender.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3e1beecd653485b1deb7561c9360f17cdf93ce222c59548f021503eb07450/UserManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/75a913e9a7f21ec51df825066a2374e58efe6284a9f27a94ad93a275eb2d98/WebApplicationBuilder.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d8d9726f3deb1bbf671f5b791e4dc3e0338219a996f439ad2a69024b825c60/UserManager.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -176,6 +175,8 @@
       <workItem from="1756006909478" duration="5589000" />
       <workItem from="1756019376428" duration="31845000" />
       <workItem from="1756228276387" duration="1443000" />
+      <workItem from="1756233219801" duration="21465000" />
+      <workItem from="1756277625609" duration="5891000" />
     </task>
     <servers />
   </component>
@@ -202,32 +203,6 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/BankOnTheGo.Domain/Models/AddTransactionRequest.cs</url>
-          <line>7</line>
-          <properties documentPath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/AddTransactionRequest.cs" containingFunctionPresentation="Property 'Type'">
-            <startOffsets>
-              <option value="181" />
-            </startOffsets>
-            <endOffsets>
-              <option value="185" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/BankOnTheGo.API/Program.cs</url>
-          <line>76</line>
-          <properties documentPath="$PROJECT_DIR$/BankOnTheGo.API/Program.cs" containingFunctionPresentation="">
-            <startOffsets>
-              <option value="2663" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2729" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
