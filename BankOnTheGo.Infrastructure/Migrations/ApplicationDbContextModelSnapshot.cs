@@ -369,6 +369,17 @@ namespace BankOnTheGo.Infrastructure.Migrations
                     b.Navigation("Wallet");
                 });
 
+            modelBuilder.Entity("BankOnTheGo.Domain.Models.Wallet", b =>
+                {
+                    b.HasOne("BankOnTheGo.Domain.Authentication.User.ApplicationUser", "User")
+                        .WithMany("Wallets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -423,6 +434,8 @@ namespace BankOnTheGo.Infrastructure.Migrations
             modelBuilder.Entity("BankOnTheGo.Domain.Authentication.User.ApplicationUser", b =>
                 {
                     b.Navigation("RefreshTokens");
+
+                    b.Navigation("Wallets");
                 });
 
             modelBuilder.Entity("BankOnTheGo.Domain.Models.Wallet", b =>

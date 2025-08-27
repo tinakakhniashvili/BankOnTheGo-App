@@ -9,19 +9,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f370128-1eaa-4312-a4e3-3c152ab6ffad" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/dataSources/887717a3-3677-4303-989c-c5cbaacc3aab.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/dataSources/887717a3-3677-4303-989c-c5cbaacc3aab.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/WalletController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/WalletController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/BankOnTheGo.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/BankOnTheGo.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IWalletService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IWalletService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/IWalletRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/IWalletRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/WalletService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/WalletService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/TransactionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/TransactionDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletRequestDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletRequestDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/AddTransactionRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/AddTransactionRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/ApplicationUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/ApplicationUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/Wallet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/Wallet.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/WalletRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/WalletRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/20250826202705_InitialCreate.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/20250826202705_InitialCreate.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/20250827071811_AddWallet.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/20250827071811_AddWallet.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -176,7 +173,7 @@
       <workItem from="1756019376428" duration="31845000" />
       <workItem from="1756228276387" duration="1443000" />
       <workItem from="1756233219801" duration="21465000" />
-      <workItem from="1756277625609" duration="5891000" />
+      <workItem from="1756277625609" duration="8834000" />
     </task>
     <servers />
   </component>

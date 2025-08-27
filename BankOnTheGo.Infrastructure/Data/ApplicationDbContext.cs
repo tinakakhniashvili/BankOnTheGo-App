@@ -37,6 +37,10 @@ namespace BankOnTheGo.Infrastructure.Data
                 e.HasIndex(x => new { x.UserId, x.Currency }).IsUnique();
                 e.Property(x => x.Status).IsRequired();
                 e.Property(x => x.CreatedAtUtc).IsRequired();
+                e.HasOne(x => x.User)
+                    .WithMany(u => u.Wallets)
+                    .HasForeignKey(x => x.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<LedgerEntry>(e =>
