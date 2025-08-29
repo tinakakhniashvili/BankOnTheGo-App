@@ -13,7 +13,7 @@ public sealed class AccountConfig : IEntityTypeConfiguration<Account>
         b.HasKey(x => x.Id);
 
         b.Property(x => x.Type)
-            .HasConversion<string>()               
+            .HasConversion<string>()
             .IsRequired();
 
         b.Property(x => x.UserId);
@@ -32,7 +32,7 @@ public sealed class AccountConfig : IEntityTypeConfiguration<Account>
         b.Property(x => x.CreatedAt)
             .IsRequired();
 
-        b.HasIndex(x => new { x.UserId, x.Currency }); 
+        b.HasIndex(x => new { x.UserId, x.Currency });
         b.HasIndex(x => x.Type);
     }
 }

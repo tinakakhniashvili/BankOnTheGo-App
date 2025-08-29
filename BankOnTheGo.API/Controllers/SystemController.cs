@@ -14,7 +14,7 @@ public class SystemController : ControllerBase
 
         return Ok(new { remoteIp, forwardedIp });
     }
-    
+
     [HttpGet("health")]
     public IActionResult HealthCheck()
     {

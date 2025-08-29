@@ -9,20 +9,23 @@ public sealed class MoneyConverter : ValueConverter<Money, string>
 {
     public static readonly MoneyConverter Instance = new();
 
-    private MoneyConverter()
-        : base(
-            v => Serialize(v),
-            s => Deserialize(s))
-    { }
-
     public static readonly ValueComparer<Money> Comparer = new(
         (a, b) => a.Amount == b.Amount && string.Equals(a.Currency, b.Currency, StringComparison.Ordinal),
         v => HashCode.Combine(v.Amount, v.Currency),
         v => new Money(v.Amount, v.Currency)
     );
 
+    private MoneyConverter()
+        : base(
+            v => Serialize(v),
+            s => Deserialize(s))
+    {
+    }
+
     private static string Serialize(Money v)
-        => string.Create(CultureInfo.InvariantCulture, $"{v.Currency}:{v.Amount:0.################}");
+    {
+        return string.Create(CultureInfo.InvariantCulture, $"{v.Currency}:{v.Amount:0.################}");
+    }
 
     private static Money Deserialize(string s)
     {

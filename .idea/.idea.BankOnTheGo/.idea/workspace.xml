@@ -10,9 +10,61 @@
   <component name="ChangeListManager">
     <list default="true" id="4f370128-1eaa-4312-a4e3-3c152ab6ffad" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/AdminController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/AdminController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/AuthController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/LedgerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/LedgerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/SystemController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/SystemController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/WalletController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/WalletController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Validators/AddTransactionRequestDtoValidator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Validators/WalletRequestValidator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Extensions/ClaimsPrincipalExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Extensions/ClaimsPrincipalExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Filters/ApiExceptionFilter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Filters/LoggingFilter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Filters/ValidateModelFilter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Helpers/ControllerResultExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Helpers/ControllerResultExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Mappers/LedgerMapping.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Mappers/LedgerMapping.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IAuthFacade.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IAuthFacade.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IJwtTokenService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IJwtTokenService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/INotificationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/INotificationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IUrlBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IUrlBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IWalletService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/IWalletService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Ledger/ILedgerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Ledger/ILedgerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/ILedgerRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/ILedgerRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/IWalletRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Repositories/IWalletRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/AuthFacade.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/AuthFacade.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/AuthenticationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/AuthenticationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/NotificationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/NotificationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/PasswordRecoveryService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/PasswordRecoveryService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/RegistrationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/RegistrationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/UrlBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/UrlBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/EmailService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Ledger/LedgerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/Ledger/LedgerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/WalletService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/WalletService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/Login/LoginModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/Login/LoginModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/SignUp/RegisterUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/SignUp/RegisterUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/SignUp/ResetPassword.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/SignUp/ResetPassword.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/ApplicationUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/ApplicationUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/RefreshToken.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/RefreshToken.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/Account.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/Account.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/AddTransactionRequest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/JournalEntry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/JournalEntry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/JournalLine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/JournalLine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/Money.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/Money.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/Transaction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/Transaction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/Wallet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Domain/Models/Wallet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/Configurations/AccountConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/Configurations/AccountConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/Configurations/JournalLineConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/Configurations/JournalLineConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/Configurations/MoneyConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/Configurations/MoneyConverter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/LedgerRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/LedgerRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/TransactionRepository.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/WalletRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Repositories/WalletRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Services/JwtTokenService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Services/JwtTokenService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Shared/Models/EmailConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Shared/Models/EmailConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Shared/Models/Message.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Shared/Models/Message.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Shared/Models/ServiceResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Shared/Models/ServiceResult.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Shared/Options/JwtOptions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Shared/Options/JwtOptions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Shared/Options/UrlOptions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Shared/Options/UrlOptions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InspectionResults.sarif" beforeDir="false" afterPath="$PROJECT_DIR$/InspectionResults.sarif" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,6 +185,26 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="QodanaHighlightedReportService">
+    <option name="localReportPersistedInfo">
+      <LocalReportPersistedInfo>
+        <option name="path" value="$PROJECT_DIR$/InspectionResults.sarif" />
+        <option name="qodana" value="false" />
+        <option name="reportGuid" value="6042b140-59e7-49b8-9489-9cb62af7889c" />
+        <option name="reportName" value="6042b140-59e7-49b8-9489-9cb62af7889c" />
+      </LocalReportPersistedInfo>
+    </option>
+  </component>
+  <component name="QodanaIsSelectedPersistenceService">
+    <option name="selectedOrLoading" value="true" />
+  </component>
+  <component name="QodanaReportsService">
+    <option name="descriptions">
+      <ReportDescription path="$PROJECT_DIR$/InspectionResults.sarif" qodana="false" reportGuid="1ea2788a-7fd9-4805-9af5-7fdd8cbbd1c0" reportId="1ea2788a-7fd9-4805-9af5-7fdd8cbbd1c0" />
+      <ReportDescription path="$PROJECT_DIR$/InspectionResults.sarif" qodana="false" reportGuid="d9932e58-d815-41a7-95a5-c9f973563ebf" reportId="d9932e58-d815-41a7-95a5-c9f973563ebf" />
+      <ReportDescription path="$PROJECT_DIR$/InspectionResults.sarif" qodana="false" reportGuid="6042b140-59e7-49b8-9489-9cb62af7889c" reportId="6042b140-59e7-49b8-9489-9cb62af7889c" />
+    </option>
+  </component>
   <component name="RunManager" selected=".NET Launch Settings Profile.BankOnTheGo.API: BankOnTheGo">
     <configuration name="BankOnTheGo" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/BankOnTheGo.API/BankOnTheGo.API.csproj" />
@@ -192,7 +264,7 @@
       <workItem from="1756277625609" duration="16737000" />
       <workItem from="1756376338677" duration="9490000" />
       <workItem from="1756429238325" duration="790000" />
-      <workItem from="1756430060388" duration="312000" />
+      <workItem from="1756430060388" duration="2164000" />
     </task>
     <servers />
   </component>

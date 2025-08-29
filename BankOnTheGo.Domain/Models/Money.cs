@@ -1,11 +1,9 @@
 using System.Globalization;
 
 namespace BankOnTheGo.Domain.Models;
+
 public readonly record struct Money
 {
-    public decimal Amount { get; }
-    public string Currency { get; } 
-
     public Money(decimal amount, string currency)
     {
         if (string.IsNullOrWhiteSpace(currency) || currency.Length != 3)
@@ -15,11 +13,20 @@ public readonly record struct Money
         Amount = amount;
     }
 
-    public static Money Zero(string currency) => new(0m, currency);
+    public decimal Amount { get; }
+    public string Currency { get; }
 
     public bool IsZero => Amount == 0m;
 
-    public Money Negate() => new(-Amount, Currency);
+    public static Money Zero(string currency)
+    {
+        return new Money(0m, currency);
+    }
+
+    public Money Negate()
+    {
+        return new Money(-Amount, Currency);
+    }
 
     public static Money operator +(Money a, Money b)
     {
@@ -27,9 +34,15 @@ public readonly record struct Money
         return new Money(a.Amount + b.Amount, a.Currency);
     }
 
-    public static Money operator -(Money a, Money b) => a + b.Negate();
+    public static Money operator -(Money a, Money b)
+    {
+        return a + b.Negate();
+    }
 
-    public static Money operator *(Money a, decimal factor) => new(a.Amount * factor, a.Currency);
+    public static Money operator *(Money a, decimal factor)
+    {
+        return new Money(a.Amount * factor, a.Currency);
+    }
 
     public static Money Min(Money a, Money b)
     {
@@ -43,8 +56,10 @@ public readonly record struct Money
         return a.Amount >= b.Amount ? a : b;
     }
 
-    public override string ToString() =>
-        string.Create(CultureInfo.InvariantCulture, $"{Amount:0.##} {Currency}");
+    public override string ToString()
+    {
+        return string.Create(CultureInfo.InvariantCulture, $"{Amount:0.##} {Currency}");
+    }
 
     public static void EnsureSameCurrency(Money a, Money b)
     {

@@ -1,4 +1,4 @@
-using BankOnTheGo.API.Extensions; 
+using BankOnTheGo.API.Extensions;
 using BankOnTheGo.Application.Interfaces;
 using BankOnTheGo.Domain.DTOs;
 using BankOnTheGo.Domain.Models;
@@ -13,7 +13,11 @@ namespace BankOnTheGo.Api.Controllers;
 public sealed class WalletController : ControllerBase
 {
     private readonly IWalletService _walletService;
-    public WalletController(IWalletService walletService) => _walletService = walletService;
+
+    public WalletController(IWalletService walletService)
+    {
+        _walletService = walletService;
+    }
 
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] WalletRequestDto request, CancellationToken ct)
@@ -31,7 +35,8 @@ public sealed class WalletController : ControllerBase
         {
             return BadRequest(new Response { Status = "Error", Message = ex.Message, IsSuccess = false });
         }
-        catch (InvalidOperationException ex) when (ex.Message.Contains("already exists", StringComparison.OrdinalIgnoreCase))
+        catch (InvalidOperationException ex) when (ex.Message.Contains("already exists",
+                                                       StringComparison.OrdinalIgnoreCase))
         {
             return Conflict(new Response { Status = "Error", Message = ex.Message, IsSuccess = false });
         }
@@ -99,7 +104,8 @@ public sealed class WalletController : ControllerBase
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains("locked", StringComparison.OrdinalIgnoreCase))
         {
-            return StatusCode(StatusCodes.Status423Locked, new Response { Status = "Error", Message = ex.Message, IsSuccess = false });
+            return StatusCode(StatusCodes.Status423Locked,
+                new Response { Status = "Error", Message = ex.Message, IsSuccess = false });
         }
         catch (ArgumentException ex)
         {
@@ -108,7 +114,8 @@ public sealed class WalletController : ControllerBase
     }
 
     [HttpGet("transactions")]
-    public async Task<IActionResult> GetTransactions([FromQuery] string? currency, [FromQuery] DateTime? from, [FromQuery] DateTime? to, CancellationToken ct)
+    public async Task<IActionResult> GetTransactions([FromQuery] string? currency, [FromQuery] DateTime? from,
+        [FromQuery] DateTime? to, CancellationToken ct)
     {
         var userId = User.GetUserId();
         if (userId is null)

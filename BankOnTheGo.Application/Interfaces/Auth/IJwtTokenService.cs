@@ -9,5 +9,6 @@ public interface IJwtTokenService
     JwtSecurityToken GetToken(List<Claim> authClaims);
     Task<(string AccessToken, RefreshToken RefreshToken)> GenerateTokensAsync(ApplicationUser user, string ipAddress);
 
-    Task<(string AccessToken, RefreshToken RefreshToken)> RefreshTokenAsync(RefreshToken tokenEntity, string? ipAddress);
+    Task<(string AccessToken, RefreshToken RefreshToken)>
+        RefreshTokenAsync(RefreshToken tokenEntity, string? ipAddress);
 }

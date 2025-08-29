@@ -8,9 +8,9 @@ namespace BankOnTheGo.Application.Services.Auth;
 
 public sealed class PasswordRecoveryService : IPasswordRecoveryService
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IUrlBuilder _urlBuilder;
     private readonly INotificationService _notifications;
+    private readonly IUrlBuilder _urlBuilder;
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public PasswordRecoveryService(
         UserManager<ApplicationUser> userManager,
@@ -26,11 +26,9 @@ public sealed class PasswordRecoveryService : IPasswordRecoveryService
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
-        {
             return ServiceResult<ResetPasswordResponse>.Ok(
                 new ResetPasswordResponse(email, false,
                     "If an account with this email exists, a password reset link has been sent."));
-        }
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
         var url = _urlBuilder.BuildPasswordResetUrl(email, token);
@@ -41,7 +39,8 @@ public sealed class PasswordRecoveryService : IPasswordRecoveryService
             new ResetPasswordResponse(email, false, $"Password reset link sent to {email}."));
     }
 
-    public async Task<ServiceResult<ResetPasswordResponse>> ResetPasswordAsync(string email, string token, string newPassword)
+    public async Task<ServiceResult<ResetPasswordResponse>> ResetPasswordAsync(string email, string token,
+        string newPassword)
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)

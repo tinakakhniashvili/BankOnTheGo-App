@@ -2,7 +2,11 @@ using BankOnTheGo.Domain.Authentication.User;
 
 namespace BankOnTheGo.Domain.Models;
 
-public enum WalletStatus { Active = 1, Locked = 2 }
+public enum WalletStatus
+{
+    Active = 1,
+    Locked = 2
+}
 
 public class Wallet
 {

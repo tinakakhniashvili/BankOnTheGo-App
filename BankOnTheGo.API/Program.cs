@@ -1,5 +1,5 @@
-using System.Text;
 using System.Security.Claims;
+using System.Text;
 using BankOnTheGo.Application.Interfaces;
 using BankOnTheGo.Application.Interfaces.Auth;
 using BankOnTheGo.Application.Interfaces.Ledger;
@@ -55,8 +55,8 @@ builder.Services
     .AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme    = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme             = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     })
     .AddJwtBearer(options =>
     {
@@ -110,12 +110,7 @@ builder.Services.AddScoped<IPasswordRecoveryService, PasswordRecoveryService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IUrlBuilder, UrlBuilder>();
 
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<ApiExceptionFilter>();
-    options.Filters.Add<ValidateModelFilter>();
-    options.Filters.Add<LoggingFilter>();
-});
+builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -147,15 +142,10 @@ var app = builder.Build();
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-    KnownNetworks = { },
-    KnownProxies = { },
     RequireHeaderSymmetry = false
 });
 
-app.UseSwagger(c =>
-{
-    c.RouteTemplate = "swagger/{documentName}/swagger.json";
-});
+app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
 
 app.UseSwaggerUI(c =>
 {
@@ -165,7 +155,7 @@ app.UseSwaggerUI(c =>
 
 app.MapGet("/v1/swagger.json", context =>
 {
-    context.Response.Redirect("/swagger/v1/swagger.json", permanent: false);
+    context.Response.Redirect("/swagger/v1/swagger.json", false);
     return Task.CompletedTask;
 });
 

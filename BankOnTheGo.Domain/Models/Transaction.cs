@@ -7,9 +7,9 @@ public class Transaction
     public TransactionType Type { get; set; }
     public TransactionState State { get; private set; } = TransactionState.Pending;
 
-    public string Currency { get; set; } = "USD"; 
-    public string? Reference { get; set; }        
-    public string? MetadataJson { get; set; }     
+    public string Currency { get; set; } = "USD";
+    public string? Reference { get; set; }
+    public string? MetadataJson { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? UpdatedAt { get; set; }
@@ -23,8 +23,9 @@ public class Transaction
         UpdatedAt = DateTimeOffset.UtcNow;
     }
 
-    private static bool IsValidTransition(TransactionState from, TransactionState to) =>
-        (from, to) switch
+    private static bool IsValidTransition(TransactionState from, TransactionState to)
+    {
+        return (from, to) switch
         {
             (TransactionState.Pending, TransactionState.Posted) => true,
             (TransactionState.Posted, TransactionState.Settled) => true,
@@ -33,6 +34,7 @@ public class Transaction
             (TransactionState.Pending, TransactionState.Cancelled) => true,
             _ => false
         };
+    }
 }
 
 public enum TransactionType
@@ -40,5 +42,5 @@ public enum TransactionType
     TopUp = 1,
     Transfer = 2,
     Withdraw = 3,
-    Fee = 4,
+    Fee = 4
 }

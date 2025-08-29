@@ -6,33 +6,26 @@ using BankOnTheGo.Domain.Authentication.User;
 using BankOnTheGo.Infrastructure.Data;
 using BankOnTheGo.Shared.Options;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Configuration;
 
 namespace BankOnTheGo.Infrastructure.Services;
 
 public sealed class JwtTokenService : IJwtTokenService
 {
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IConfiguration _configuration;
     private readonly ApplicationDbContext _context;
     private readonly JwtOptions _jwt;
-    private readonly IConfiguration _configuration;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public JwtTokenService(UserManager<ApplicationUser> userManager, ApplicationDbContext context, IOptions<JwtOptions> jwtOptions, IConfiguration configuration)
+    public JwtTokenService(UserManager<ApplicationUser> userManager, ApplicationDbContext context,
+        IOptions<JwtOptions> jwtOptions, IConfiguration configuration)
     {
         _userManager = userManager;
         _context = context;
         _jwt = jwtOptions.Value;
         _configuration = configuration;
-    }
-
-    private (string Key, string Issuer, string Audience) GetEffectiveJwt()
-    {
-        var key = string.IsNullOrWhiteSpace(_jwt.Key) ? _configuration["JWT:Secret"] ?? "" : _jwt.Key;
-        var issuer = string.IsNullOrWhiteSpace(_jwt.Issuer) ? _configuration["JWT:ValidIssuer"] ?? "" : _jwt.Issuer;
-        var audience = string.IsNullOrWhiteSpace(_jwt.Audience) ? _configuration["JWT:ValidAudience"] ?? "" : _jwt.Audience;
-        return (key, issuer, audience);
     }
 
     public JwtSecurityToken GetToken(List<Claim> claims)
@@ -43,22 +36,23 @@ public sealed class JwtTokenService : IJwtTokenService
         var expires = DateTime.UtcNow.AddMinutes(_jwt.AccessTokenMinutes <= 0 ? 60 : _jwt.AccessTokenMinutes);
 
         return new JwtSecurityToken(
-            issuer: eff.Issuer,
-            audience: eff.Audience,
-            claims: claims,
-            notBefore: DateTime.UtcNow,
-            expires: expires,
-            signingCredentials: creds
+            eff.Issuer,
+            eff.Audience,
+            claims,
+            DateTime.UtcNow,
+            expires,
+            creds
         );
     }
 
-    public async Task<(string AccessToken, RefreshToken RefreshToken)> GenerateTokensAsync(ApplicationUser user, string ipAddress)
+    public async Task<(string AccessToken, RefreshToken RefreshToken)> GenerateTokensAsync(ApplicationUser user,
+        string ipAddress)
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name, user.UserName ?? user.Email ?? user.Id),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new(ClaimTypes.NameIdentifier, user.Id),
+            new(ClaimTypes.Name, user.UserName ?? user.Email ?? user.Id),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
         var roles = await _userManager.GetRolesAsync(user);
@@ -83,7 +77,8 @@ public sealed class JwtTokenService : IJwtTokenService
         return (access, refresh);
     }
 
-    public async Task<(string AccessToken, RefreshToken RefreshToken)> RefreshTokenAsync(RefreshToken tokenEntity, string? ipAddress)
+    public async Task<(string AccessToken, RefreshToken RefreshToken)> RefreshTokenAsync(RefreshToken tokenEntity,
+        string? ipAddress)
     {
         tokenEntity.Revoked = DateTime.UtcNow;
         tokenEntity.RevokedByIp = ipAddress;
@@ -94,5 +89,15 @@ public sealed class JwtTokenService : IJwtTokenService
 
         await _context.SaveChangesAsync();
         return newTokens;
+    }
+
+    private (string Key, string Issuer, string Audience) GetEffectiveJwt()
+    {
+        var key = string.IsNullOrWhiteSpace(_jwt.Key) ? _configuration["JWT:Secret"] ?? "" : _jwt.Key;
+        var issuer = string.IsNullOrWhiteSpace(_jwt.Issuer) ? _configuration["JWT:ValidIssuer"] ?? "" : _jwt.Issuer;
+        var audience = string.IsNullOrWhiteSpace(_jwt.Audience)
+            ? _configuration["JWT:ValidAudience"] ?? ""
+            : _jwt.Audience;
+        return (key, issuer, audience);
     }
 }

@@ -1,7 +1,8 @@
 using BankOnTheGo.Application.Interfaces;
+using BankOnTheGo.Shared.Models;
 using MailKit.Net.Smtp;
 using MimeKit;
-using BankOnTheGo.Shared.Models;
+using MimeKit.Text;
 
 namespace BankOnTheGo.Application.Services;
 
@@ -9,7 +10,10 @@ public class EmailService : IEmailService
 {
     private readonly EmailConfiguration _emailConfig;
 
-    public EmailService(EmailConfiguration emailConfig) => _emailConfig = emailConfig;  
+    public EmailService(EmailConfiguration emailConfig)
+    {
+        _emailConfig = emailConfig;
+    }
 
     public async Task SendEmail(Message message)
     {
@@ -23,7 +27,7 @@ public class EmailService : IEmailService
         emailMessage.From.Add(new MailboxAddress("email", _emailConfig.From));
         emailMessage.To.AddRange(message.To);
         emailMessage.Subject = message.Subject;
-        emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text){Text = message.Content};
+        emailMessage.Body = new TextPart(TextFormat.Text) { Text = message.Content };
 
         return emailMessage;
     }
@@ -39,11 +43,6 @@ public class EmailService : IEmailService
             client.Authenticate(_emailConfig.UserName, _emailConfig.Password);
 
             client.Send(mailMessage);
-        }
-        catch
-        {
-            // log an error message or throw an exception or both
-            throw;
         }
         finally
         {

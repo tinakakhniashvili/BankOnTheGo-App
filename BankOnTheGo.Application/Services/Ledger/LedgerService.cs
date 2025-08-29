@@ -1,3 +1,4 @@
+using System.Transactions;
 using BankOnTheGo.Application.Interfaces.Ledger;
 using BankOnTheGo.Application.Interfaces.Repositories;
 using BankOnTheGo.Domain.Models;
@@ -9,7 +10,10 @@ public sealed class LedgerService : ILedgerService
 {
     private readonly ILedgerRepository _repo;
 
-    public LedgerService(ILedgerRepository repo) => _repo = repo;
+    public LedgerService(ILedgerRepository repo)
+    {
+        _repo = repo;
+    }
 
     public async Task<DomainTransaction> CreatePendingTransactionAsync(
         TransactionType type,
@@ -60,9 +64,9 @@ public sealed class LedgerService : ILedgerService
 
         if (!string.Equals(tx.Currency, currency, StringComparison.Ordinal))
             throw new InvalidOperationException("Journal currency mismatch with transaction currency.");
-        
-        using var scope = new System.Transactions.TransactionScope(
-            System.Transactions.TransactionScopeAsyncFlowOption.Enabled);
+
+        using var scope = new TransactionScope(
+            TransactionScopeAsyncFlowOption.Enabled);
 
         await _repo.AddJournalEntryAsync(entry, ct);
         tx.TransitionTo(TransactionState.Posted);
@@ -73,5 +77,7 @@ public sealed class LedgerService : ILedgerService
     }
 
     public Task<Money> GetBalanceAsync(Guid accountId, string currency, CancellationToken ct = default)
-        => _repo.GetBalanceAsync(accountId, currency.ToUpperInvariant(), ct);
+    {
+        return _repo.GetBalanceAsync(accountId, currency.ToUpperInvariant(), ct);
+    }
 }

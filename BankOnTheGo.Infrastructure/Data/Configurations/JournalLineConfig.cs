@@ -16,16 +16,16 @@ public sealed class JournalLineConfig : IEntityTypeConfiguration<JournalLine>
         b.Property(x => x.AccountId).IsRequired();
 
         b.Property(x => x.Direction)
-            .HasConversion<string>() 
+            .HasConversion<string>()
             .IsRequired();
-        
+
         var moneyProp = b.Property(x => x.Amount)
-            .HasConversion(MoneyConverter.Instance)   
+            .HasConversion(MoneyConverter.Instance)
             .HasColumnName("Money")
             .IsUnicode(false)
-            .HasMaxLength(64)                         
+            .HasMaxLength(64)
             .IsRequired();
-        
+
         moneyProp.Metadata.SetValueComparer(MoneyConverter.Comparer);
 
         b.HasIndex(x => x.AccountId);

@@ -6,9 +6,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankOnTheGo.Infrastructure.Data;
+
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
-    public DbSet<RefreshToken> RefreshTokens { get; set; } 
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {
+    }
+
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<LedgerEntry> LedgerEntries { get; set; }
     public DbSet<Account> Accounts { get; set; }
@@ -16,18 +21,15 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<JournalEntry> JournalEntries { get; set; }
     public DbSet<JournalLine> JournalLines { get; set; }
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
-           
         builder.ApplyConfiguration(new AccountConfig());
         builder.ApplyConfiguration(new TransactionConfig());
         builder.ApplyConfiguration(new JournalEntryConfig());
         builder.ApplyConfiguration(new JournalLineConfig());
 
         base.OnModelCreating(builder);
-            
+
         builder.Entity<RefreshToken>(e =>
         {
             e.HasKey(rt => rt.Id);
@@ -52,7 +54,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-           
+
         builder.Entity<LedgerEntry>(e =>
         {
             e.HasKey(x => x.Id);
@@ -77,18 +79,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<IdentityRole>().HasData(
             new IdentityRole
             {
-                    Id = "11111111-1111-1111-1111-111111111111",
-                    Name = "Admin",
-                    NormalizedName = "ADMIN",
-                    ConcurrencyStamp = "11111111-1111-1111-1111-111111111111"
+                Id = "11111111-1111-1111-1111-111111111111",
+                Name = "Admin",
+                NormalizedName = "ADMIN",
+                ConcurrencyStamp = "11111111-1111-1111-1111-111111111111"
             },
             new IdentityRole
             {
-                    Id = "22222222-2222-2222-2222-222222222222",
-                    Name = "User",
-                    NormalizedName = "USER",
-                    ConcurrencyStamp = "22222222-2222-2222-2222-222222222222" 
+                Id = "22222222-2222-2222-2222-222222222222",
+                Name = "User",
+                NormalizedName = "USER",
+                ConcurrencyStamp = "22222222-2222-2222-2222-222222222222"
             });
     }
 }
-

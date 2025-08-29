@@ -13,7 +13,10 @@ public sealed class LedgerController : ControllerBase
 {
     private readonly ILedgerService _ledger;
 
-    public LedgerController(ILedgerService ledger) => _ledger = ledger;
+    public LedgerController(ILedgerService ledger)
+    {
+        _ledger = ledger;
+    }
 
     [HttpPost("transactions")]
     public async Task<IActionResult> CreateTransaction(
@@ -54,16 +57,15 @@ public sealed class LedgerController : ControllerBase
                 ex.Message.Contains("positive", StringComparison.OrdinalIgnoreCase) ||
                 ex.Message.Contains("currency mismatch", StringComparison.OrdinalIgnoreCase) ||
                 ex.Message.Contains("do not exist", StringComparison.OrdinalIgnoreCase))
-            {
                 return BadRequest(new ProblemDetails { Title = "Invalid journal entry", Detail = ex.Message });
-            }
 
             return Conflict(new ProblemDetails { Title = "Invalid state", Detail = ex.Message });
         }
     }
 
     [HttpGet("accounts/{accountId:guid}/balance")]
-    public async Task<IActionResult> GetAccountBalance(Guid accountId, [FromQuery] string currency, CancellationToken ct)
+    public async Task<IActionResult> GetAccountBalance(Guid accountId, [FromQuery] string currency,
+        CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(currency))
             return BadRequest(new ProblemDetails { Title = "Invalid input", Detail = "Currency is required." });

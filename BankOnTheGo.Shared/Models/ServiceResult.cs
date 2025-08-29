@@ -2,10 +2,6 @@ namespace BankOnTheGo.Shared.Models;
 
 public class ServiceResult<T>
 {
-    public bool Success { get; }
-    public string? Error { get; }
-    public T? Data { get; }
-
     private ServiceResult(bool success, T? data, string? error)
     {
         Success = success;
@@ -13,6 +9,17 @@ public class ServiceResult<T>
         Error = error;
     }
 
-    public static ServiceResult<T> Ok(T data) => new(true, data, null);
-    public static ServiceResult<T> Fail(string error) => new(false, default, error);
+    public bool Success { get; }
+    public string? Error { get; }
+    public T? Data { get; }
+
+    public static ServiceResult<T> Ok(T data)
+    {
+        return new ServiceResult<T>(true, data, null);
+    }
+
+    public static ServiceResult<T> Fail(string error)
+    {
+        return new ServiceResult<T>(false, default, error);
+    }
 }
