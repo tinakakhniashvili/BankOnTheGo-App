@@ -23,8 +23,7 @@ namespace BankOnTheGo.Application.Services
             throw new ArgumentException("Currency must be a 3-letter ISO code.", nameof(request.Currency));
 
         var currency = request.Currency.ToUpperInvariant();
-
-        // CHANGED: check uniqueness by (userId, currency)
+        
         var existing = await _walletRepo.GetByUserAndCurrencyAsync(userId, currency, ct);
         if (existing is not null)
             throw new InvalidOperationException("Wallet already exists for this user and currency.");
@@ -32,8 +31,7 @@ namespace BankOnTheGo.Application.Services
         var created = await _walletRepo.CreateAsync(userId, currency, ct);
         return MapWallet(created, balanceMinor: 0);
     }
-
-    // CHANGED: return all wallets (one per currency)
+        
     public async Task<IReadOnlyList<WalletDto>> GetMineAsync(string userId, CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(userId))
@@ -51,8 +49,7 @@ namespace BankOnTheGo.Application.Services
         }
         return result;
     }
-
-    // NEW: get a specific wallet by currency
+    
     public async Task<WalletDto> GetAsync(string userId, string currency, CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(userId))
@@ -67,7 +64,6 @@ namespace BankOnTheGo.Application.Services
         return MapWallet(wallet, balance);
     }
 
-    // CHANGED: resolve wallet by (userId, request.Currency)
     public async Task<TransactionDto> TopUpAsync(string userId, AddTransactionRequestDto request, CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(userId))
@@ -99,8 +95,7 @@ namespace BankOnTheGo.Application.Services
         await _walletRepo.AddLedgerAsync(entry, ct);
         return MapTransaction(entry);
     }
-
-    // CHANGED: optional currency filter; if user has >1 wallet and currency is null => error
+    
     public async Task<IReadOnlyList<TransactionDto>> GetTransactionsAsync(
         string userId, string? currency, DateTime? from, DateTime? to, CancellationToken ct)
     {

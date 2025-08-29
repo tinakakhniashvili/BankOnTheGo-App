@@ -25,7 +25,7 @@ public sealed class WalletController : ControllerBase
         try
         {
             var dto = await _walletService.CreateAsync(userId, request, ct);
-            return Ok(dto); 
+            return Ok(dto);
         }
         catch (ArgumentException ex)
         {
@@ -47,7 +47,7 @@ public sealed class WalletController : ControllerBase
         try
         {
             var list = await _walletService.GetMineAsync(userId, ct);
-            return Ok(list); 
+            return Ok(list);
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains("not found", StringComparison.OrdinalIgnoreCase))
         {

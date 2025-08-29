@@ -1,1 +1,45 @@
+# Build results
+bin/
+obj/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.exe
+*.dll
+*.pdb
+
+# Visual Studio / Rider files
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# Logs
+*.log
+
+# Test results
+[Tt]est[Rr]esult*/
+*.trx
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Other generated files
+InspectionResults.*
+all_files.txt
+
+# Configuration
 appsettings.json
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json

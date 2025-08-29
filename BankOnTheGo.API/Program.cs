@@ -2,9 +2,11 @@ using System.Text;
 using System.Security.Claims;
 using BankOnTheGo.Application.Interfaces;
 using BankOnTheGo.Application.Interfaces.Auth;
+using BankOnTheGo.Application.Interfaces.Ledger;
 using BankOnTheGo.Application.Interfaces.Repositories;
 using BankOnTheGo.Application.Services;
 using BankOnTheGo.Application.Services.Auth;
+using BankOnTheGo.Application.Services.Ledger;
 using BankOnTheGo.Domain.Authentication.User;
 using BankOnTheGo.Infrastructure.Data;
 using BankOnTheGo.Infrastructure.Repositories;
@@ -96,6 +98,8 @@ builder.Services.AddMailKit(config => config.UseMailKit(new MailKitOptions
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IWalletRepository, WalletRepository>();
+builder.Services.AddScoped<ILedgerRepository, LedgerRepository>();
+builder.Services.AddScoped<ILedgerService, LedgerService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IWalletService, WalletService>();
@@ -148,11 +152,23 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     RequireHeaderSymmetry = false
 });
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.RoutePrefix = string.Empty);
-}
+    c.RouteTemplate = "swagger/{documentName}/swagger.json";
+});
+
+app.UseSwaggerUI(c =>
+{
+    c.RoutePrefix = string.Empty;
+    c.SwaggerEndpoint("./swagger/v1/swagger.json", "BankOnTheGo API v1");
+});
+
+app.MapGet("/v1/swagger.json", context =>
+{
+    context.Response.Redirect("/swagger/v1/swagger.json", permanent: false);
+    return Task.CompletedTask;
+});
+
 
 app.UseHttpsRedirection();
 app.UseRouting();
