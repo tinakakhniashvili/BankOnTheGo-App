@@ -1,4 +1,4 @@
-using System.Security.Claims;
+using BankOnTheGo.API.Extensions; 
 using BankOnTheGo.Application.Interfaces;
 using BankOnTheGo.Domain.DTOs;
 using BankOnTheGo.Domain.Models;
@@ -18,7 +18,7 @@ public sealed class WalletController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] WalletRequestDto request, CancellationToken ct)
     {
-        var userId = GetUserId();
+        var userId = User.GetUserId();
         if (userId is null)
             return Unauthorized(new Response { Status = "Error", Message = "Unauthorized", IsSuccess = false });
 
@@ -40,7 +40,7 @@ public sealed class WalletController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetMine(CancellationToken ct)
     {
-        var userId = GetUserId();
+        var userId = User.GetUserId();
         if (userId is null)
             return Unauthorized(new Response { Status = "Error", Message = "Unauthorized", IsSuccess = false });
 
@@ -62,7 +62,7 @@ public sealed class WalletController : ControllerBase
     [HttpGet("{currency}")]
     public async Task<IActionResult> GetByCurrency(string currency, CancellationToken ct)
     {
-        var userId = GetUserId();
+        var userId = User.GetUserId();
         if (userId is null)
             return Unauthorized(new Response { Status = "Error", Message = "Unauthorized", IsSuccess = false });
 
@@ -84,7 +84,7 @@ public sealed class WalletController : ControllerBase
     [HttpPost("top-up")]
     public async Task<IActionResult> TopUp([FromBody] AddTransactionRequestDto request, CancellationToken ct)
     {
-        var userId = GetUserId();
+        var userId = User.GetUserId();
         if (userId is null)
             return Unauthorized(new Response { Status = "Error", Message = "Unauthorized", IsSuccess = false });
 
@@ -110,7 +110,7 @@ public sealed class WalletController : ControllerBase
     [HttpGet("transactions")]
     public async Task<IActionResult> GetTransactions([FromQuery] string? currency, [FromQuery] DateTime? from, [FromQuery] DateTime? to, CancellationToken ct)
     {
-        var userId = GetUserId();
+        var userId = User.GetUserId();
         if (userId is null)
             return Unauthorized(new Response { Status = "Error", Message = "Unauthorized", IsSuccess = false });
 
@@ -128,9 +128,4 @@ public sealed class WalletController : ControllerBase
             return BadRequest(new Response { Status = "Error", Message = ex.Message, IsSuccess = false });
         }
     }
-
-    private string? GetUserId() =>
-        User.FindFirstValue(ClaimTypes.NameIdentifier)
-        ?? User.FindFirstValue("sub")
-        ?? User.FindFirstValue("uid");
 }

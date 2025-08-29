@@ -10,12 +10,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4f370128-1eaa-4312-a4e3-3c152ab6ffad" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/WalletController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Controllers/WalletController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Services/WalletService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Application/Services/WalletService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Infrastructure/Data/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/all_files.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Validators/AddTransactionRequestDtoValidator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Application/Validators/WalletRequestValidator.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,10 +41,12 @@
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Controllers/LedgerController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Controllers/SystemController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Controllers/WalletController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Extensions/ClaimsPrincipalExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Filters/ApiExceptionFilter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Filters/LoggingFilter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Filters/ValidateModelFilter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Helpers/ControllerResultExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Mappers/LedgerMapping.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IAuthFacade.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IAuthenticationService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IPasswordRecoveryService.cs" root0="FORCE_HIGHLIGHTING" />
@@ -62,11 +61,14 @@
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Services/Auth/RegistrationService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Services/Ledger/LedgerService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Services/WalletService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Validators/AddTransactionRequestDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Validators/WalletRequestValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/ApplicationUser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/Authentication/User/RefreshToken.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/AddTransactionRequestDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/Ledger/CreateTransactionRequestDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/Ledger/JournalLineDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/Ledger/MoneyDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/Ledger/PostJournalEntryRequestDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/Ledger/PostJournalEntryResponseDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/TransactionDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/DTOs/WalletDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Domain/Models/Account.cs" root0="FORCE_HIGHLIGHTING" />
@@ -189,6 +191,8 @@
       <workItem from="1756233219801" duration="21465000" />
       <workItem from="1756277625609" duration="16737000" />
       <workItem from="1756376338677" duration="9490000" />
+      <workItem from="1756429238325" duration="790000" />
+      <workItem from="1756430060388" duration="312000" />
     </task>
     <servers />
   </component>
