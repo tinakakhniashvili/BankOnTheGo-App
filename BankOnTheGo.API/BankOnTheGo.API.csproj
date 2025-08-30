@@ -9,7 +9,12 @@
     <UserSecretsId>aspnet-BankOnTheGo-0d9eacf0-1be2-487c-baf7-2112570a603e</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
+    <PropertyGroup>
+        <DisableStaticWebAssets>true</DisableStaticWebAssets>
+        <WebRoot>_empty-webroot</WebRoot>
+    </PropertyGroup>
+
+    <ItemGroup>
     <!-- Authentication & Identity -->
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />

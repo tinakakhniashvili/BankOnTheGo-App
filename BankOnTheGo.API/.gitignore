@@ -1,6 +1,6 @@
 # Build results
-bin/
-obj/
+**/bin/
+**/obj/
 [Bb]uild/
 [Dd]ebug/
 [Rr]elease/
@@ -10,11 +10,12 @@ x86/
 *.dll
 *.pdb
 
-# Visual Studio / Rider files
+# IDE files
 .vs/
 .idea/
-*.user
+.vscode/
 *.suo
+*.user
 *.userosscache
 *.sln.docstates
 *.DotSettings.user
@@ -30,7 +31,7 @@ x86/
 *.nupkg
 *.snupkg
 *.nuget/
-packages/
+**/packages/
 project.lock.json
 project.fragment.lock.json
 
@@ -38,8 +39,20 @@ project.fragment.lock.json
 InspectionResults.*
 all_files.txt
 
-# Configuration
-appsettings.json
+# Configuration (commit base appsettings.json, ignore env-specific)
 appsettings.Development.json
 appsettings.Local.json
 appsettings.*.local.json
+
+# Visual Studio service dependencies
+**/Properties/serviceDependencies*.json*
+
+# Launch settings (optional, team decision)
+**/Properties/launchSettings.json
+
+# Static analysis / inspection results
+inspect.sarif
+*.sarif
+
+# Empty placeholder folders
+**/_empty-webroot

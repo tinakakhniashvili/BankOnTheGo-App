@@ -10,8 +10,15 @@
   <component name="ChangeListManager">
     <list default="true" id="4f370128-1eaa-4312-a4e3-3c152ab6ffad" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/BankOnTheGo.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/BankOnTheGo.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Shared/BankOnTheGo.Shared.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Shared/BankOnTheGo.Shared.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Properties/serviceDependencies.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/Properties/serviceDependencies.local.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InspectionResults.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InspectionResults.sarif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/InspectionResults.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/inspect.sarif" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
