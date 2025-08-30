@@ -58,4 +58,17 @@ public class WalletRepository : IWalletRepository
             .SumAsync(x => (long?)x.AmountMinor, ct);
         return sum ?? 0;
     }
+
+    public async Task<Account?> GetAccountAsync(Guid userId, string currency, CancellationToken ct)
+    {
+        var ccy = currency.ToUpperInvariant();
+
+        return await _db.Accounts
+            .AsNoTracking()
+            .FirstOrDefaultAsync(a =>
+                a.Type == AccountType.User &&
+                a.IsActive &&
+                a.UserId == userId &&
+                a.Currency == ccy, ct);
+    }
 }

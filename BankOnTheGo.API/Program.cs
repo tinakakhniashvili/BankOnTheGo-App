@@ -4,9 +4,11 @@ using BankOnTheGo.Application.Interfaces;
 using BankOnTheGo.Application.Interfaces.Auth;
 using BankOnTheGo.Application.Interfaces.Ledger;
 using BankOnTheGo.Application.Interfaces.Repositories;
+using BankOnTheGo.Application.Interfaces.Wallet;
 using BankOnTheGo.Application.Services;
 using BankOnTheGo.Application.Services.Auth;
 using BankOnTheGo.Application.Services.Ledger;
+using BankOnTheGo.Application.Services.Wallet;
 using BankOnTheGo.Domain.Authentication.User;
 using BankOnTheGo.Infrastructure.Data;
 using BankOnTheGo.Infrastructure.Repositories;
@@ -102,13 +104,21 @@ builder.Services.AddScoped<ILedgerRepository, LedgerRepository>();
 builder.Services.AddScoped<ILedgerService, LedgerService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-builder.Services.AddScoped<IWalletService, WalletService>();
+builder.Services.AddScoped<IWalletService, WalletFacade>();
 builder.Services.AddScoped<IAuthFacade, AuthFacade>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IPasswordRecoveryService, PasswordRecoveryService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IUrlBuilder, UrlBuilder>();
+builder.Services.AddScoped<IWalletManagementService, WalletManagementService>();
+builder.Services.AddScoped<ITransferService, TransferService>();
+builder.Services.AddScoped<IPayoutService, PayoutService>();
+builder.Services.AddScoped<IPaymentLinkService, PaymentLinkService>();
+builder.Services.AddScoped<IIdempotencyExecutor, IdempotencyExecutor>();
+builder.Services.AddScoped<IPaymentLinkRepository, PaymentLinkRepository>();
+
+builder.Services.AddSingleton<IIdempotencyStore, InMemoryIdempotencyStore>();
 
 builder.Services.AddControllers();
 

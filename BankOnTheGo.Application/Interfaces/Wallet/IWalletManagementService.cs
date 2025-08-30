@@ -1,8 +1,8 @@
 using BankOnTheGo.Domain.DTOs;
 
-namespace BankOnTheGo.Application.Interfaces;
+namespace BankOnTheGo.Application.Interfaces.Wallet;
 
-public interface IWalletService
+public interface IWalletManagementService
 {
     Task<WalletDto> CreateAsync(string userId, WalletRequestDto request, CancellationToken ct);
     Task<IReadOnlyList<WalletDto>> GetMineAsync(string userId, CancellationToken ct);
@@ -13,11 +13,4 @@ public interface IWalletService
 
     Task<TransactionDto> TopUpAsync(string userId, AddTransactionRequestDto request, CancellationToken ct);
     Task<TransactionDto?> GetTransactionAsync(Guid userId, Guid transactionId, CancellationToken ct);
-    Task<TransactionDto> TransferAsync(Guid fromUserId, CreateTransferRequestDto request, CancellationToken ct);
-    Task<TransactionDto> PayoutAsync(Guid userId, CreatePayoutRequestDto request, CancellationToken ct);
-    Task<PaymentLinkDto> CreatePaymentLinkAsync(Guid userId, CreatePaymentLinkRequestDto request, CancellationToken ct);
-    Task<PaymentLinkDto?> GetPaymentLinkAsync(Guid userId, string code, CancellationToken ct);
-
-    Task<TransactionDto> PayPaymentLinkAsync(Guid payerUserId, string code, string? idempotencyKey,
-        CancellationToken ct);
 }

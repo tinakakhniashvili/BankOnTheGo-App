@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace BankOnTheGo.Domain.Models;
 
-public readonly record struct Money
+public sealed record Money
 {
     public Money(decimal amount, string currency)
     {

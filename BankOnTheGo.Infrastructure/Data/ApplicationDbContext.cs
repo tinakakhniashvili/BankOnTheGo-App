@@ -20,6 +20,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<JournalEntry> JournalEntries { get; set; }
     public DbSet<JournalLine> JournalLines { get; set; }
+    public DbSet<PaymentLink> PaymentLinks { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -27,6 +28,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.ApplyConfiguration(new TransactionConfig());
         builder.ApplyConfiguration(new JournalEntryConfig());
         builder.ApplyConfiguration(new JournalLineConfig());
+        builder.ApplyConfiguration(new PaymentLinkConfig());
 
         base.OnModelCreating(builder);
 

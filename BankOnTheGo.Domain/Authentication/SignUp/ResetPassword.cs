@@ -8,5 +8,6 @@ public class ResetPassword
 
     [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
     public string Email { get; set; } = null!;
+
     public string Token { get; set; } = null!;
 }
