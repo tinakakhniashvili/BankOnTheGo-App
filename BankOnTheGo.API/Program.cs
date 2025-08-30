@@ -1,4 +1,6 @@
 using BankOnTheGo.API.Setup;
+using BankOnTheGo.API.Startup;              
+using BankOnTheGo.API.Startup.Seed;        
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -14,6 +16,8 @@ builder.Services
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
 
+builder.Services.AddTransient<SeedData>();
+
 var app = builder.Build();
 
 app.UseForwardedHeadersConfig();
@@ -25,4 +29,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+await app.UseMigrationsAndSeedAsync();
+
 app.Run();

@@ -10,6 +10,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4f370128-1eaa-4312-a4e3-3c152ab6ffad" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BankOnTheGo/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.API/BankOnTheGo.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.API/BankOnTheGo.API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankOnTheGo.Shared/BankOnTheGo.Shared.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BankOnTheGo.Shared/BankOnTheGo.Shared.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +43,16 @@
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Extensions/ClaimsPrincipalExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Helpers/ControllerResultExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Mappers/LedgerMapping.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Setup/AppServicesSetup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Setup/AuthSetup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Setup/DatabaseSetup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Setup/EmailSetup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Setup/ForwardedHeadersSetup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Setup/IdentitySetup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Setup/SwaggerSetup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Startup/Seed/SeedConstants.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Startup/Seed/SeedData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BankOnTheGo.API/Startup/StartupExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IAuthFacade.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IAuthenticationService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BankOnTheGo.Application/Interfaces/Auth/IPasswordRecoveryService.cs" root0="FORCE_HIGHLIGHTING" />
@@ -227,7 +239,7 @@
       <workItem from="1756277625609" duration="16737000" />
       <workItem from="1756376338677" duration="9490000" />
       <workItem from="1756429238325" duration="790000" />
-      <workItem from="1756430060388" duration="20535000" />
+      <workItem from="1756430060388" duration="22158000" />
     </task>
     <servers />
   </component>
